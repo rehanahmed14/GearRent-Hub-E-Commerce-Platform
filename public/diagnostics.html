@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>GearRent Hub — Diagnostics</title>
+  <style>
+    body { font-family: monospace; background: #0a0a0a; color: #0f0; padding: 20px; }
+    h1 { color: #fff; font-size: 1.2rem; margin-bottom: 20px; }
+    .ok  { color: #0f0; }
+    .err { color: #f44; }
+    .warn{ color: #fa0; }
+    pre  { background: #111; border: 1px solid #333; padding: 12px; border-radius: 8px; overflow: auto; font-size:0.8rem; }
+    .section { margin-bottom: 20px; border: 1px solid #333; border-radius: 8px; padding: 16px; }
+    .section h2 { color: #6af; margin-bottom:10px; font-size:0.9rem; }
+  </style>
+</head>
+<body>
+  <h1>🔧 GearRent Hub — Live Diagnostics</h1>
+  <div id="output"></div>
+
+  <!-- Load all CSS and JS exactly like the real page -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/glass-surface.css" />
+  <link rel="stylesheet" href="/css/accordion-gallery.css" />
+  <link rel="stylesheet" href="/css/professional.css" />
+  <link rel="stylesheet" href="/css/cursor.css" />
+  <script src="/js/accordion-gallery.js"></script>
+  <script src="/js/glass-surface.js"></script>
+
+  <script>
+    var out = document.getElementById('output');
+    var results = [];
+
+    function check(label, cond, detail) {
+      var ok = !!cond;
+      results.push({ label, ok, detail });
+    }
+
+    function render() {
+      out.innerHTML = '';
+
+      // CSS Variables
+      var s = document.createElement('div');
+      s.className = 'section';
+      s.innerHTML = '<h2>CSS Variables</h2>';
+      var computed = getComputedStyle(document.documentElement);
+      var vars = ['--clr-primary','--clr-accent','--font-display','--space-lg','--ease-spring'];
+      vars.forEach(function(v) {
+        var val = computed.getPropertyValue(v).trim();
+        var p = document.createElement('p');
+        p.innerHTML = val
+          ? '<span class="ok">✓</span> ' + v + ': <code>' + val.substring(0,50) + '</code>'
+          : '<span class="err">✗</span> ' + v + ': NOT FOUND — main.css may not be loading!';
+        s.appendChild(p);
+      });
+      out.appendChild(s);
+
+      // JS Classes
+      var s2 = document.createElement('div');
+      s2.className = 'section';
+      s2.innerHTML = '<h2>JavaScript Classes</h2>';
+      [{name:'AccordionGallery', obj: window.AccordionGallery},
+       {name:'GlassSurface',     obj: window.GlassSurface}].forEach(function(item) {
+        var p = document.createElement('p');
+        p.innerHTML = item.obj
+          ? '<span class="ok">✓</span> window.' + item.name + ' — loaded OK'
+          : '<span class="err">✗</span> window.' + item.name + ' — NOT FOUND (script failed to load!)';
+        s2.appendChild(p);
+      });
+      out.appendChild(s2);
+
+      // CSS Files loaded
+      var s3 = document.createElement('div');
+      s3.className = 'section';
+      s3.innerHTML = '<h2>CSS File Checks (via fetch)</h2>';
+      var cssFiles = [
+        '/css/main.css', '/css/glass-surface.css',
+        '/css/accordion-gallery.css', '/css/professional.css', '/css/cursor.css'
+      ];
+      cssFiles.forEach(function(f) {
+        fetch(f).then(function(r) {
+          return r.text().then(function(text) {
+            var p = document.createElement('p');
+            p.innerHTML = r.ok
+              ? '<span class="ok">✓</span> ' + f + ' — HTTP ' + r.status + ' — ' + text.length + ' bytes'
+              : '<span class="err">✗</span> ' + f + ' — HTTP ' + r.status;
+            s3.appendChild(p);
+          });
+        }).catch(function(e) {
+          var p = document.createElement('p');
+          p.innerHTML = '<span class="err">✗</span> ' + f + ' — FETCH ERROR: ' + e.message;
+          s3.appendChild(p);
+        });
+      });
+      out.appendChild(s3);
+
+      // Test AccordionGallery mount
+      var s4 = document.createElement('div');
+      s4.className = 'section';
+      s4.innerHTML = '<h2>AccordionGallery — Live Mount Test</h2>';
+      var mountDiv = document.createElement('div');
+      mountDiv.id = 'ag-test-mount';
+      s4.appendChild(mountDiv);
+      out.appendChild(s4);
+
+      if (window.AccordionGallery) {
+        try {
+          var ag = new AccordionGallery(mountDiv, {
+            items: [
+              { image: '/images/arri-alexa.jpg',  label: 'ARRI Alexa Mini LF', sublabel: '$149/day', category: 'Cameras', link: '#' },
+              { image: '/images/sony-fx6.jpg',     label: 'Sony FX6',           sublabel: '$79/day',  category: 'Cameras', link: '#' },
+              { image: '/images/dji-inspire3.jpg', label: 'DJI Inspire 3',      sublabel: '$119/day', category: 'Drones',  link: '#' },
+            ],
+            defaultIndex: 1,
+            expandRatio: 0.52,
+            trigger: 'hover'
+          });
+          var ok = document.createElement('p');
+          ok.innerHTML = '<span class="ok">✓</span> AccordionGallery mounted successfully — ' + mountDiv.querySelectorAll('.ag-panel').length + ' panels created';
+          s4.insertBefore(ok, mountDiv);
+        } catch(e) {
+          var err = document.createElement('p');
+          err.innerHTML = '<span class="err">✗</span> AccordionGallery THREW: ' + e.message;
+          s4.insertBefore(err, mountDiv);
+        }
+      } else {
+        var miss = document.createElement('p');
+        miss.innerHTML = '<span class="err">✗</span> AccordionGallery class not available — script not loaded';
+        s4.insertBefore(miss, mountDiv);
+      }
+
+      // Image checks
+      var s5 = document.createElement('div');
+      s5.className = 'section';
+      s5.innerHTML = '<h2>Image Files</h2>';
+      var imgs = ['/images/arri-alexa.jpg','/images/dji-inspire3.jpg',
+                  '/images/arri-skypanel.jpg','/images/sony-fx6.jpg','/images/dji-mavic3.jpg'];
+      imgs.forEach(function(src) {
+        var img = new Image();
+        img.onload = function() {
+          var p = document.createElement('p');
+          p.innerHTML = '<span class="ok">✓</span> ' + src + ' — ' + img.naturalWidth + 'x' + img.naturalHeight;
+          s5.appendChild(p);
+        };
+        img.onerror = function() {
+          var p = document.createElement('p');
+          p.innerHTML = '<span class="err">✗</span> ' + src + ' — NOT FOUND or failed to load';
+          s5.appendChild(p);
+        };
+        img.src = src;
+      });
+      out.appendChild(s5);
+    }
+
+    window.addEventListener('load', render);
+  </script>
+</body>
+</html>

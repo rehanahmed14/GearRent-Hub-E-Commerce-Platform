@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gear Details — GearRent Hub</title>
+  <meta name="description" content="View full specs, pricing, and availability. Select rental dates and get live pricing for professional camera, drone, and lighting equipment." />
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/animations.css" />
+  <style>
+    @media (max-width: 900px) {
+      #detail-root .container > div {
+        grid-template-columns: 1fr !important;
+      }
+      #booking-panel {
+        position: relative !important;
+        top: 0 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navbar ── -->
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <a href="/" class="navbar-brand" aria-label="GearRent Hub Home">
+        <div class="brand-icon" aria-hidden="true">🎬</div>
+        <span class="brand-name">Gear<span>Rent</span> Hub</span>
+      </a>
+      <div class="navbar-nav" role="menubar">
+        <a href="/" class="nav-link" role="menuitem">Catalog</a>
+        <a href="/dashboard.html" class="nav-link" role="menuitem">My Bookings</a>
+      </div>
+      <div class="navbar-actions">
+        <a href="/dashboard.html" class="btn btn-outline btn-sm btn-rounded" id="nav-dashboard-btn">
+          📋 My Bookings
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Main Content ── -->
+  <main class="page-content" id="detail-root">
+    <!-- Populated dynamically by gear-detail.js -->
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-copy">© 2026 GearRent Hub. All rights reserved.</div>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Support</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/gear-detail.js"></script>
+</body>
+</html>

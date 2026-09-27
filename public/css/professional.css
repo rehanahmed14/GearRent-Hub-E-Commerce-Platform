@@ -1,0 +1,473 @@
+/* ============================================================
+   GearRent Hub — Professional UI Polish
+   Complete visual upgrade pass
+   ============================================================ */
+
+/* ── Ticker / Marquee Strip ── */
+.brand-ticker {
+  width: 100%;
+  overflow: hidden;
+  padding: 12px 0;
+  background: linear-gradient(90deg,
+    rgba(99,102,241,0.06) 0%,
+    rgba(245,158,11,0.04) 50%,
+    rgba(99,102,241,0.06) 100%
+  );
+  border-top: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.ticker-track {
+  display: flex;
+  gap: 48px;
+  animation: ticker 28s linear infinite;
+  width: max-content;
+}
+
+.ticker-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--clr-text-3);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ticker-item .ticker-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--clr-primary);
+  flex-shrink: 0;
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ── Navbar professional upgrade ── */
+.navbar-brand .brand-icon {
+  width: 40px; height: 40px;
+  background: linear-gradient(135deg, var(--clr-primary-d), var(--clr-primary));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 16px rgba(99,102,241,0.4);
+  position: relative;
+  overflow: hidden;
+}
+.navbar-brand .brand-icon::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 50%;
+  background: rgba(255,255,255,0.12);
+  border-radius: 10px 10px 0 0;
+}
+
+.nav-link {
+  position: relative;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 50%;
+  transform: translateX(-50%);
+  width: 16px; height: 2px;
+  background: var(--clr-primary);
+  border-radius: 1px;
+}
+
+/* ── Hero professional title ── */
+.hero-title {
+  font-size: clamp(2.8rem, 7vw, 5.2rem);
+  font-weight: 900;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  margin-bottom: var(--space-xl);
+}
+
+.hero-title .line-accent {
+  display: block;
+  background: linear-gradient(
+    135deg,
+    var(--clr-primary-l) 0%,
+    var(--clr-accent)    60%,
+    var(--clr-primary-l) 100%
+  );
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: meshShift 6s ease infinite;
+}
+
+/* ── Section Divider ── */
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--clr-border) 20%,
+    rgba(99,102,241,0.3) 50%,
+    var(--clr-border) 80%,
+    transparent 100%
+  );
+  position: relative;
+  margin: 0;
+}
+.section-divider::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px; height: 5px;
+  background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+  border-radius: 999px;
+  filter: blur(4px);
+}
+
+/* ── Section header upgrade ── */
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--clr-primary-l);
+  margin-bottom: var(--space-sm);
+  padding: 4px 12px;
+  background: rgba(99,102,241,0.08);
+  border: 1px solid rgba(99,102,241,0.2);
+  border-radius: 999px;
+}
+.section-eyebrow::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--clr-primary);
+  animation: pulse 2s infinite;
+}
+
+/* ── Stats upgrade ── */
+.hero-stat-value {
+  font-size: 2.4rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  background: linear-gradient(135deg, #fff, rgba(255,255,255,0.75));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Professional Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: all 0.25s var(--ease-bounce);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ripple on click */
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0);
+  transition: background 0.15s;
+}
+.btn:active::after { background: rgba(255,255,255,0.08); }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--clr-primary-d), var(--clr-primary));
+  color: #fff;
+  box-shadow: 0 4px 24px rgba(99,102,241,0.35), inset 0 1px 0 rgba(255,255,255,0.15);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(99,102,241,0.5), 0 0 0 1px rgba(99,102,241,0.5);
+}
+.btn-primary:active { transform: translateY(0); }
+
+.btn-outline {
+  border: 1px solid var(--clr-border-2);
+  color: var(--clr-text-2);
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(8px);
+}
+.btn-outline:hover {
+  border-color: var(--clr-primary);
+  color: var(--clr-text);
+  background: rgba(99,102,241,0.06);
+  transform: translateY(-1px);
+}
+
+/* ── How It Works cards upgraded ── */
+.step-card {
+  position: relative;
+  padding: var(--space-xl) var(--space-xl) var(--space-2xl);
+  text-align: center;
+  overflow: hidden;
+}
+
+.step-number {
+  position: absolute;
+  top: -16px; right: 16px;
+  font-family: var(--font-display);
+  font-size: 5rem;
+  font-weight: 900;
+  color: rgba(255,255,255,0.04);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.step-icon-wrap {
+  width: 68px; height: 68px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(99,102,241,0.05));
+  border: 1px solid rgba(99,102,241,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem;
+  margin: 0 auto var(--space-lg);
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+.glass-card:hover .step-icon-wrap {
+  background: linear-gradient(135deg, rgba(99,102,241,0.25), rgba(99,102,241,0.1));
+  box-shadow: 0 0 20px rgba(99,102,241,0.2);
+  transform: scale(1.05);
+}
+
+.step-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: var(--space-sm);
+  letter-spacing: -0.01em;
+}
+
+.step-desc {
+  font-size: 0.88rem;
+  color: var(--clr-text-2);
+  line-height: 1.75;
+}
+
+/* Connector line between steps */
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xl);
+  position: relative;
+  margin-top: var(--space-2xl);
+}
+.steps-grid::before {
+  content: '';
+  position: absolute;
+  top: 34px;
+  left: calc(16.66% + 34px);
+  right: calc(16.66% + 34px);
+  height: 1px;
+  background: linear-gradient(90deg,
+    rgba(99,102,241,0.4) 0%,
+    rgba(245,158,11,0.4) 100%
+  );
+  z-index: 0;
+}
+
+/* ── Trust bar upgrade ── */
+.trust-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px;
+  padding: 28px var(--space-xl);
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--clr-text-2);
+  transition: color 0.2s;
+}
+.trust-item:hover { color: var(--clr-text); }
+
+.trust-icon {
+  width: 34px; height: 34px;
+  border-radius: 10px;
+  background: rgba(99,102,241,0.1);
+  border: 1px solid rgba(99,102,241,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  transition: all 0.25s ease;
+}
+.trust-item:hover .trust-icon {
+  background: rgba(99,102,241,0.2);
+  border-color: rgba(99,102,241,0.4);
+  transform: scale(1.08);
+}
+
+/* ── Footer upgrade ── */
+.footer {
+  border-top: 1px solid var(--clr-border);
+  padding: var(--space-xl) 0;
+  background: var(--clr-bg-1);
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-copy {
+  font-size: 0.82rem;
+  color: var(--clr-text-3);
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+}
+.footer-links a {
+  font-size: 0.82rem;
+  color: var(--clr-text-3);
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--clr-text); }
+
+/* ── Gear Card Professional Upgrade ── */
+.gear-card-category {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  width: fit-content;
+  margin-bottom: 8px;
+}
+.gear-card-category.cameras { background:rgba(139,92,246,0.12); color: #a78bfa; border:1px solid rgba(139,92,246,0.25); }
+.gear-card-category.drones  { background:rgba(6,182,212,0.1);   color: #22d3ee; border:1px solid rgba(6,182,212,0.25); }
+.gear-card-category.lighting{ background:rgba(245,158,11,0.1);  color: #fbbf24; border:1px solid rgba(245,158,11,0.25); }
+
+.gear-card-name {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+.gear-card-tagline {
+  font-size: 0.8rem;
+  color: var(--clr-text-3);
+  margin-bottom: 12px;
+}
+
+.gear-card-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.gear-price-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--clr-text-3);
+  margin-bottom: 2px;
+}
+
+.gear-price-value {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--clr-accent);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.gear-price-value span {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--clr-text-3);
+  letter-spacing: 0;
+}
+
+/* ── Search input professional ── */
+.search-input {
+  border-radius: 14px;
+  padding: 14px 16px 14px 48px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.9rem;
+}
+.search-input:focus {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(99,102,241,0.5);
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.12), 0 8px 24px rgba(0,0,0,0.2);
+}
+
+/* ── Badge professional ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+}
+.gear-card .badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 5;
+}
+.badge-popular { background: rgba(99,102,241,0.85); color: #fff; }
+.badge-pro     { background: rgba(239,68,68,0.85);  color: #fff; }
+.badge-value   { background: rgba(16,185,129,0.85); color: #fff; }
+.badge-hwood   { background: rgba(245,158,11,0.9);  color: #000; }
+.badge-seller  { background: rgba(6,182,212,0.85);  color: #000; }
+.badge-film    { background: rgba(139,92,246,0.85); color: #fff; }
+.badge-generic { background: rgba(30,30,50,0.85);   color: rgba(255,255,255,0.8); border:1px solid rgba(255,255,255,0.15); }
+
+/* ── Empty state ── */
+.empty-state {
+  text-align: center;
+  padding: var(--space-4xl) var(--space-xl);
+  color: var(--clr-text-3);
+}
+.empty-state-icon { font-size: 3.5rem; margin-bottom: var(--space-md); }
+.empty-state-title { font-size: 1.1rem; font-weight: 700; color: var(--clr-text-2); margin-bottom: var(--space-sm); }
+.empty-state-text  { font-size: 0.875rem; line-height: 1.7; }

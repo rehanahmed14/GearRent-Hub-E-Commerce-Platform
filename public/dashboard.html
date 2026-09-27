@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Bookings — GearRent Hub</title>
+  <meta name="description" content="View and manage all your equipment rental bookings on GearRent Hub. Check booking status, dates, and cancel if needed." />
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/animations.css" />
+</head>
+<body>
+
+  <!-- ── Navbar ── -->
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <a href="/" class="navbar-brand" aria-label="GearRent Hub Home">
+        <div class="brand-icon" aria-hidden="true">🎬</div>
+        <span class="brand-name">Gear<span>Rent</span> Hub</span>
+      </a>
+      <div class="navbar-nav" role="menubar">
+        <a href="/" class="nav-link" role="menuitem">Catalog</a>
+        <a href="/dashboard.html" class="nav-link active" role="menuitem">My Bookings</a>
+      </div>
+      <div class="navbar-actions">
+        <a href="/" class="btn btn-primary btn-sm btn-rounded" id="nav-browse-btn">
+          🎬 Browse Gear
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Main Content ── -->
+  <main class="page-content page-transition">
+    <div class="container section">
+
+      <!-- Page Header -->
+      <div class="section-header" style="margin-bottom:var(--space-2xl);">
+        <div class="section-eyebrow">Dashboard</div>
+        <h1 class="section-title">My Bookings</h1>
+        <p class="section-subtitle">Track and manage all your equipment rental bookings</p>
+      </div>
+
+      <!-- Stats Row -->
+      <div id="dash-stats" style="display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-md); margin-bottom:var(--space-2xl);">
+        <!-- Populated by dashboard.js -->
+        <div class="skeleton" style="height:90px; border-radius:var(--radius-xl);"></div>
+        <div class="skeleton" style="height:90px; border-radius:var(--radius-xl);"></div>
+        <div class="skeleton" style="height:90px; border-radius:var(--radius-xl);"></div>
+        <div class="skeleton" style="height:90px; border-radius:var(--radius-xl);"></div>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider" style="margin-bottom:var(--space-xl);"></div>
+
+      <!-- Bookings List Header -->
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:var(--space-lg);">
+        <h2 style="font-size:1.1rem; font-weight:700;">All Rentals</h2>
+        <a href="/" class="btn btn-outline btn-sm btn-rounded">+ Add New Booking</a>
+      </div>
+
+      <!-- Bookings Root -->
+      <div id="bookings-root" style="display:flex; flex-direction:column; gap:var(--space-md);" aria-live="polite">
+        <!-- Populated by dashboard.js -->
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ── Cancel Confirmation Modal ── -->
+  <div class="modal-overlay" id="cancel-modal" role="dialog" aria-modal="true" aria-labelledby="cancel-modal-title">
+    <div class="modal">
+      <button class="modal-close" onclick="closeCancelModal()" aria-label="Close modal">✕</button>
+      <div class="modal-error-icon" aria-hidden="true">⚠️</div>
+      <h2 id="cancel-modal-title" style="font-size:1.3rem; font-weight:800; text-align:center; margin-bottom:var(--space-sm);">Cancel Booking?</h2>
+      <p style="color:var(--clr-text-2); text-align:center; font-size:.9rem; margin-bottom:var(--space-xl); line-height:1.7;">
+        This action cannot be undone. Your refundable deposit will be returned within 5–7 business days.
+      </p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-md);">
+        <button class="btn btn-ghost btn-full" onclick="closeCancelModal()" id="keep-booking-btn">
+          Keep Booking
+        </button>
+        <button class="btn btn-danger btn-full" onclick="confirmCancel()" id="confirm-cancel-btn">
+          Yes, Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Footer ── -->
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-copy">© 2026 GearRent Hub. All rights reserved.</div>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Support</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/dashboard.js"></script>
+  <script>
+    // Responsive stats grid
+    if (window.innerWidth <= 600) {
+      document.getElementById('dash-stats').style.gridTemplateColumns = 'repeat(2,1fr)';
+    }
+  </script>
+</body>
+</html>

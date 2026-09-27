@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GearRent Hub — Rent Premium Camera, Drone & Lighting Equipment</title>
+  <meta name="description" content="GearRent Hub offers professional equipment rental for filmmakers and photographers. Browse cameras, drones, and lighting gear with live pricing and instant booking." />
+  <link rel="preload" href="/images/hero_background.png" as="image" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/animations.css" />
+  <link rel="stylesheet" href="/css/cursor.css" />
+  <link rel="stylesheet" href="/css/glass-surface.css" />
+  <link rel="stylesheet" href="/css/accordion-gallery.css" />
+  <link rel="stylesheet" href="/css/professional.css" />
+</head>
+<body>
+
+  <!-- ── Custom Cursor Elements ── -->
+  <div id="cursor-aura"   aria-hidden="true"></div>
+  <div id="cursor-ring"   aria-hidden="true"></div>
+  <div id="cursor-dot"    aria-hidden="true"></div>
+  <div id="cursor-emotion" aria-hidden="true"></div>
+
+  <!-- ── Navbar ── -->
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <a href="/" class="navbar-brand" aria-label="GearRent Hub Home">
+        <div class="brand-icon" aria-hidden="true">🎬</div>
+        <span class="brand-name">Gear<span>Rent</span> Hub</span>
+      </a>
+      <div class="navbar-nav" role="menubar">
+        <a href="/" class="nav-link active" role="menuitem">Catalog</a>
+        <a href="/dashboard.html" class="nav-link" role="menuitem">My Bookings</a>
+        <a href="#how-it-works" class="nav-link" role="menuitem">How It Works</a>
+      </div>
+      <div class="navbar-actions">
+        <a href="/dashboard.html" class="btn btn-outline btn-sm btn-rounded" id="nav-dashboard-btn">
+          📋 My Bookings
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Main ── -->
+  <main class="page-content">
+
+    <!-- ── Hero ── -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-grid" aria-hidden="true"></div>
+
+      <!-- Floating Orbs (3D depth blobs) -->
+      <div class="hero-orb orb-1" aria-hidden="true"></div>
+      <div class="hero-orb orb-2" aria-hidden="true"></div>
+      <div class="hero-orb orb-3" aria-hidden="true"></div>
+
+      <!-- Floating product preview badges (hover & click to rent) -->
+      <a href="/gear.html?id=cam-001" class="hero-float-1" title="Rent Sony FX6">
+        <div>
+          <div style="font-size:2.2rem;">🎬</div>
+          <div>
+            <div style="font-size:.7rem; color:var(--clr-cam); font-weight:700; letter-spacing:.06em; text-transform:uppercase;">Sony FX6</div>
+            <div style="font-size:.85rem; font-weight:700; color:#fff;">$79<span style="font-weight:400; color:var(--clr-text-3);">/day</span></div>
+          </div>
+        </div>
+      </a>
+      <a href="/gear.html?id=drone-002" class="hero-float-2" title="Rent DJI Inspire 3">
+        <div>
+          <div style="font-size:2.2rem;">🚁</div>
+          <div>
+            <div style="font-size:.7rem; color:var(--clr-drone); font-weight:700; letter-spacing:.06em; text-transform:uppercase;">DJI Inspire 3</div>
+            <div style="font-size:.85rem; font-weight:700; color:#fff;">$119<span style="font-weight:400; color:var(--clr-text-3);">/day</span></div>
+          </div>
+        </div>
+      </a>
+      <a href="/gear.html?id=light-002" class="hero-float-3" title="Rent ARRI SkyPanel">
+        <div>
+          <div style="font-size:2.2rem;">💡</div>
+          <div>
+            <div style="font-size:.7rem; color:var(--clr-light); font-weight:700; letter-spacing:.06em; text-transform:uppercase;">ARRI SkyPanel</div>
+            <div style="font-size:.85rem; font-weight:700; color:#fff;">$49<span style="font-weight:400; color:var(--clr-text-3);">/day</span></div>
+          </div>
+        </div>
+      </a>
+
+      <div class="container hero-content">
+        <div class="animate-fade-up">
+          <div class="hero-eyebrow">
+            <span class="dot" aria-hidden="true"></span>
+            Premium Equipment Rental
+          </div>
+        </div>
+
+        <h1 id="hero-title" class="hero-title animate-fade-up delay-100">
+          Rent the <span class="animated-gradient-text">Gear</span><br>
+          That Makes<br>
+          <span class="gradient-text">Magic Happen</span>
+        </h1>
+
+        <p class="hero-subtitle animate-fade-up delay-200">
+          Professional cameras, cinema drones, and broadcast lighting — available for daily or weekly rental with instant live pricing and same-day booking confirmation.
+        </p>
+
+        <div class="hero-actions animate-fade-up delay-300">
+          <a href="#catalog" class="btn btn-primary btn-xl btn-rounded" id="hero-cta-btn">
+            🎬 Browse Gear
+          </a>
+          <a href="#how-it-works" class="btn btn-outline btn-xl btn-rounded" id="hero-how-btn">
+            How It Works →
+          </a>
+        </div>
+
+        <!-- Stats: all computed live from real API data.
+             Gear=equipment count | Rentals=confirmed bookings
+             Rating=renter-submitted ("New" until first review) | Categories=distinct gear types -->
+        <div class="hero-stats animate-fade-up delay-400">
+          <div class="hero-stat">
+            <div class="hero-stat-value" id="stat-gear">—</div>
+            <div class="hero-stat-label">Gear Items</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value" id="stat-rentals">—</div>
+            <div class="hero-stat-label">Confirmed Bookings</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value" id="stat-rating">—</div>
+            <div class="hero-stat-label">Avg Rating</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value" id="stat-cats">—</div>
+            <div class="hero-stat-label">Categories</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Ticker Strip ── -->
+    <div class="brand-ticker" aria-hidden="true">
+      <div class="ticker-track" id="ticker-track">
+        <span class="ticker-item"><span class="ticker-dot"></span>Sony FX6</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>ARRI Alexa Mini LF</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>RED Komodo 6K</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>DJI Inspire 3</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>ARRI SkyPanel S60-C</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>Canon EOS R5C</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>Profoto B10 Plus</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>DJI Mavic 3 Pro</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>Aputure 600d Pro</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>Godox SL200III</span>
+        <!-- duplicate for seamless loop -->
+        <span class="ticker-item"><span class="ticker-dot"></span>Sony FX6</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>ARRI Alexa Mini LF</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>RED Komodo 6K</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>DJI Inspire 3</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>ARRI SkyPanel S60-C</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>Canon EOS R5C</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>Profoto B10 Plus</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>DJI Mavic 3 Pro</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>Aputure 600d Pro</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>Godox SL200III</span>
+      </div>
+    </div>
+
+    <!-- ── AccordionGallery — Featured Gear ── -->
+    <section class="section accordion-gallery-section" aria-label="Featured Gear">
+      <div class="container">
+        <div class="ag-header">
+          <div class="ag-header-left">
+            <div class="section-eyebrow">Interactive Slides</div>
+            <h2 class="section-title">Accordion Gallery Experience</h2>
+            <p class="section-subtitle" style="margin-top:6px;">Hover across the slides to expand — smooth physics &amp; instant preview</p>
+            <div class="ag-tabs">
+              <button class="ag-tab-btn active" id="ag-tab-fleet" type="button">🎬 Cinema Fleet</button>
+              <button class="ag-tab-btn" id="ag-tab-scouting" type="button">🌄 Location Shoots (Demo)</button>
+            </div>
+          </div>
+          <div class="ag-header-right">
+            <span>Hover or swipe</span> ←→
+          </div>
+        </div>
+        <!-- AccordionGallery renders here via JS -->
+        <div id="accordion-gallery-mount"></div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── GlassSurface Component Showcase ── -->
+    <section class="section glass-showcase-section" id="glass-optics" aria-label="Glass Surface Optics Engine">
+      <div class="container">
+        <div class="section-header flex-between" style="flex-wrap:wrap; gap:var(--space-md);">
+          <div>
+            <div class="section-eyebrow">Optics &amp; Physics Engine</div>
+            <h2 class="section-title">GlassSurface Component System</h2>
+            <p class="section-subtitle">Real-time SVG displacement maps, chromatic aberration dispersion &amp; frosted specular reflection</p>
+          </div>
+          <div class="hero-eyebrow" style="margin-bottom:0;">
+            <span class="dot"></span>
+            GPU Accelerated
+          </div>
+        </div>
+
+        <div class="glass-showcase-grid">
+          <!-- 1. Basic Usage Example from user specification -->
+          <glass-surface width="100%" height="auto" border-radius="24" class-name="my-custom-class">
+            <div class="glass-demo-badge">Basic Surface Component</div>
+            <h2>Glass Surface Content</h2>
+            <p style="color:var(--clr-text-2); font-size:0.92rem; line-height:1.6; margin-top:6px;">
+              Pure optical substrate with frosted glassmorphism, 1px specular light catch, and internal refraction.
+            </p>
+            <div class="glass-pill-row">
+              <span class="glass-pill primary">Width: 300px</span>
+              <span class="glass-pill accent">Radius: 24px</span>
+            </div>
+          </glass-surface>
+
+          <!-- 2. Advanced Displacement Example from user specification -->
+          <glass-surface id="interactive-glass" displace="15" distortion-scale="-150" red-offset="5" green-offset="15" blue-offset="25" brightness="60" opacity="0.8" mix-blend-mode="screen" class-name="advanced-glass-card" width="100%" height="auto" border-radius="24">
+            <div class="glass-demo-badge glow">Chromatic Aberration Active</div>
+            <span>Advanced Glass Distortion</span>
+            <p style="color:var(--clr-text-2); font-size:0.92rem; line-height:1.6; margin-top:8px;">
+              Simulating an anamorphic cinema lens element: RGB spectral separation with dynamic displacement scale.
+            </p>
+            <div class="glass-pill-row">
+              <span class="glass-pill accent">Screen Blend</span>
+              <span class="glass-pill cyan">RGB Split</span>
+            </div>
+          </glass-surface>
+        </div>
+
+        <!-- Interactive Control Panel for Live Tweaking -->
+        <div class="glass-ctrl-panel">
+          <div class="glass-ctrl-group">
+            <label for="glass-displace-input">Displacement: <span id="displace-val" style="color:var(--clr-accent); font-weight:700;">15px</span></label>
+            <input type="range" id="glass-displace-input" class="glass-slider" min="0" max="40" value="15" />
+          </div>
+          <div class="glass-ctrl-group">
+            <label for="glass-bright-input">Brightness Boost: <span id="bright-val" style="color:var(--clr-primary-l); font-weight:700;">60%</span></label>
+            <input type="range" id="glass-bright-input" class="glass-slider" min="0" max="100" value="60" />
+          </div>
+          <div style="font-size:0.82rem; color:var(--clr-text-2); display:flex; align-items:center; gap:6px;">
+            <span>✨</span> <em>Adjust sliders to see live optical refraction</em>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── How It Works ── -->
+    <section id="how-it-works" class="section" aria-labelledby="how-title" style="background: linear-gradient(180deg, var(--clr-bg) 0%, var(--clr-bg-1) 100%);">
+      <div class="container">
+        <div class="section-header" style="text-align:center;">
+          <div class="section-eyebrow" style="justify-content:center; margin-bottom: var(--space-sm);">Process</div>
+          <h2 id="how-title" class="section-title" style="text-align:center;">Simple. Fast. Professional.</h2>
+          <p class="section-subtitle" style="text-align:center; margin:0 auto;">Rent premium gear in 3 easy steps</p>
+        </div>
+
+        <div class="steps-grid">
+          <div class="glass-card step-card reveal-hidden">
+            <div class="step-number">01</div>
+            <div class="step-icon-wrap">🔍</div>
+            <h3 class="step-title">Browse &amp; Choose</h3>
+            <p class="step-desc">Filter by category, search by name, and explore detailed specs — sensor size, resolution, weight — for every piece of gear.</p>
+          </div>
+          <div class="glass-card step-card reveal-hidden" style="transition-delay:100ms">
+            <div class="step-number">02</div>
+            <div class="step-icon-wrap">📅</div>
+            <h3 class="step-title">Pick Dates &amp; See Pricing</h3>
+            <p class="step-desc">Select your rental window and watch the live price update instantly — weekly rate savings applied automatically when you book 7+ days.</p>
+          </div>
+          <div class="glass-card step-card reveal-hidden" style="transition-delay:200ms">
+            <div class="step-number">03</div>
+            <div class="step-icon-wrap">✅</div>
+            <h3 class="step-title">Book &amp; Confirm</h3>
+            <p class="step-desc">Enter your details and get instant booking confirmation with a unique Booking ID. Manage all rentals from your personal dashboard.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Catalog ── -->
+    <section id="catalog" class="section" aria-labelledby="catalog-title">
+      <div class="container">
+        <div class="section-header flex-between" style="flex-wrap:wrap; gap:var(--space-md);">
+          <div>
+            <div class="section-eyebrow">Gear Catalog</div>
+            <h2 id="catalog-title" class="section-title">Premium Equipment</h2>
+            <p class="section-subtitle">Professional-grade gear, ready for your next project</p>
+          </div>
+          <div style="color:var(--clr-text-3); font-size:.875rem;" id="result-count"></div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-bar-wrap" role="search">
+          <div class="search-input-wrap">
+            <span class="icon" aria-hidden="true">🔍</span>
+            <input
+              type="search"
+              id="search-input"
+              class="search-input"
+              placeholder="Search cameras, drones, lighting…"
+              aria-label="Search equipment"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="category-tabs" role="tablist" aria-label="Equipment categories">
+          <button class="category-tab active" data-category="all" role="tab" aria-selected="true" id="tab-all">
+            📦 All Gear
+          </button>
+          <button class="category-tab" data-category="cameras" role="tab" aria-selected="false" id="tab-cameras">
+            🎬 Cameras
+          </button>
+          <button class="category-tab" data-category="drones" role="tab" aria-selected="false" id="tab-drones">
+            🚁 Drones
+          </button>
+          <button class="category-tab" data-category="lighting" role="tab" aria-selected="false" id="tab-lighting">
+            💡 Lighting
+          </button>
+        </div>
+
+        <!-- Gear Grid -->
+        <div class="gear-grid" id="gear-grid" role="list" aria-label="Equipment catalog">
+          <!-- Populated by catalog.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Trust Bar ── -->
+    <section aria-label="Trust Signals" style="border-top:1px solid var(--clr-border); border-bottom:1px solid var(--clr-border); background:linear-gradient(135deg,rgba(99,102,241,0.04),rgba(245,158,11,0.03)); padding: var(--space-xl) 0;">
+      <div class="container">
+        <div class="trust-bar">
+          <div class="trust-item">
+            <div class="trust-icon">🔒</div>
+            <span>Secure Payments</span>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">📦</div>
+            <span>Free Cancellation (48h)</span>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">🛡️</div>
+            <span>Fully Insured Gear</span>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">⚡</div>
+            <span>Instant Confirmation</span>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">💬</div>
+            <span>24/7 Support</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div>
+        <div class="footer-copy">© 2026 GearRent Hub. All rights reserved.</div>
+        <div style="font-size:0.75rem; color:var(--clr-text-3); margin-top:4px;">Professional equipment rental for filmmakers &amp; photographers.</div>
+      </div>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Support</a>
+        <a href="/dashboard.html">My Bookings</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- ── Scripts ── -->
+  <script src="/js/api.js"></script>
+  <script src="/js/accordion-gallery.js"></script>
+  <script src="/js/glass-surface.js"></script>
+  <script src="/js/catalog.js"></script>
+  <script src="/js/cursor.js"></script>
+
+  <!-- ── Init AccordionGallery + GlassSurface ── -->
+  <script>
+    function initAllInteractive() {
+      // ── AccordionGallery ─────────────────────────────────
+      var agMount = document.getElementById('accordion-gallery-mount');
+      var currentAg = null;
+
+      var fleetItems = [
+        { image: '/images/arri-alexa.jpg',   label: 'ARRI Alexa Mini LF',  sublabel: '$149/day', category: 'Cameras',  link: '/gear.html?id=cam-004' },
+        { image: '/images/dji-inspire3.jpg',  label: 'DJI Inspire 3',       sublabel: '$119/day', category: 'Drones',   link: '/gear.html?id=drone-002' },
+        { image: '/images/arri-skypanel.jpg', label: 'ARRI SkyPanel S60-C', sublabel: '$49/day',  category: 'Lighting', link: '/gear.html?id=light-002' },
+        { image: '/images/sony-fx6.jpg',      label: 'Sony FX6',            sublabel: '$79/day',  category: 'Cameras',  link: '/gear.html?id=cam-001' },
+        { image: '/images/dji-mavic3.jpg',    label: 'DJI Mavic 3 Pro',     sublabel: '$39/day',  category: 'Drones',   link: '/gear.html?id=drone-001' },
+      ];
+
+      var scoutingItems = [
+        { image: 'https://picsum.photos/id/1015/900/1200', label: 'Canyon',   sublabel: 'Scouting Pass', category: 'Locations', link: '#catalog' },
+        { image: 'https://picsum.photos/id/1018/900/1200', label: 'Ridgeline',sublabel: 'Golden Hour',   category: 'Locations', link: '#catalog' },
+        { image: 'https://picsum.photos/id/1039/900/1200', label: 'Falls',    sublabel: 'Mist & Spray',  category: 'Locations', link: '#catalog' },
+        { image: 'https://picsum.photos/id/1043/900/1200', label: 'Harbour',  sublabel: 'Night Reflect', category: 'Locations', link: '#catalog' },
+        { image: 'https://picsum.photos/id/1044/900/1200', label: 'Skyline',  sublabel: 'Aerial Route',  category: 'Locations', link: '#catalog' }
+      ];
+
+      function renderAg(items) {
+        if (!agMount || !window.AccordionGallery) return;
+        currentAg = new AccordionGallery(agMount, {
+          items:        items,
+          defaultIndex: 2,
+          expandRatio:  0.52,
+          trigger:      'hover'
+        });
+      }
+
+      // Initial render with Cinema Fleet
+      renderAg(fleetItems);
+
+      // Tabs: Cinema Fleet vs Location Scouting
+      var tabFleet = document.getElementById('ag-tab-fleet');
+      var tabScouting = document.getElementById('ag-tab-scouting');
+
+      if (tabFleet && tabScouting) {
+        tabFleet.addEventListener('click', function() {
+          tabFleet.classList.add('active');
+          tabScouting.classList.remove('active');
+          renderAg(fleetItems);
+        });
+
+        tabScouting.addEventListener('click', function() {
+          tabScouting.classList.add('active');
+          tabFleet.classList.remove('active');
+          renderAg(scoutingItems);
+        });
+      }
+
+      // ── GlassSurface on hero floating badges ─────────────
+      var badges = document.querySelectorAll('.hero-float-1 > div, .hero-float-2 > div, .hero-float-3 > div');
+      badges.forEach(function(badge) {
+        if (window.GlassSurface && !badge._gsInit) {
+          badge._gsInit = true;
+          badge.classList.add('hero-glass-badge');
+        }
+      });
+
+      // ── Interactive Glass Displacement Slider ────────────
+      var displaceSlider = document.getElementById('glass-displace-input');
+      var brightSlider = document.getElementById('glass-bright-input');
+      var displaceVal = document.getElementById('displace-val');
+      var brightVal = document.getElementById('bright-val');
+      var interactiveCard = document.getElementById('interactive-glass');
+
+      function updateInteractiveGlass() {
+        if (!interactiveCard || !window.GlassSurface) return;
+        var disp = parseFloat(displaceSlider ? displaceSlider.value : 15);
+        var bright = parseFloat(brightSlider ? brightSlider.value : 60);
+
+        if (displaceVal) displaceVal.textContent = disp + 'px';
+        if (brightVal) brightVal.textContent = bright + '%';
+
+        // Re-apply with new parameters
+        interactiveCard.setAttribute('displace', disp);
+        interactiveCard.setAttribute('brightness', bright);
+
+        // Update the live SVG filter scale directly
+        var svgFilter = interactiveCard.querySelector('filter');
+        if (!svgFilter) {
+          var filterId = interactiveCard.style.getPropertyValue('--glass-filter');
+          if (filterId) {
+            var match = filterId.match(/#([a-zA-Z0-9_-]+)/);
+            if (match) svgFilter = document.getElementById(match[1]);
+          }
+        }
+        if (svgFilter) {
+          var dispMap = svgFilter.querySelector('feDisplacementMap');
+          if (dispMap) dispMap.setAttribute('scale', disp);
+          var comp = svgFilter.querySelector('feComponentTransfer');
+          if (comp) {
+            var slope = 1 + bright / 100;
+            comp.querySelectorAll('feFuncR, feFuncG, feFuncB').forEach(function(f) {
+              f.setAttribute('slope', slope);
+            });
+          }
+        }
+      }
+
+      if (displaceSlider) displaceSlider.addEventListener('input', updateInteractiveGlass);
+      if (brightSlider) brightSlider.addEventListener('input', updateInteractiveGlass);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAllInteractive);
+    } else {
+      initAllInteractive();
+    }
+  </script>
+</body>
+</html>
+
