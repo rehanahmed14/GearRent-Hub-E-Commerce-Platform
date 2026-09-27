@@ -32,6 +32,13 @@ async function fetchEquipmentById(id) {
   return apiFetch(`/api/equipment/${id}`);
 }
 
+async function createEquipmentListing(payload) {
+  return apiFetch('/api/equipment', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+}
+
 // ── Pricing ───────────────────────────────────────────────────
 async function calculatePrice(equipmentId, startDate, endDate) {
   const params = new URLSearchParams({ equipmentId, startDate, endDate });
@@ -139,6 +146,8 @@ function getBadgeClass(badge) {
     'Budget Pick': 'badge-success',
     'Studio Grade': 'badge-info',
     'Broadcast': 'badge-info',
+    'Creator Host': 'badge-accent',
+    'Owner Listing': 'badge-accent',
   };
   return map[badge] || 'badge-primary';
 }

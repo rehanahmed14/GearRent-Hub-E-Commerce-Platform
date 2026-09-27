@@ -30,14 +30,18 @@
         <span class="brand-name">Gear<span>Rent</span> Hub</span>
       </a>
       <div class="navbar-nav" role="menubar">
-        <a href="/" class="nav-link active" role="menuitem">Catalog</a>
-        <a href="/dashboard.html" class="nav-link" role="menuitem">My Bookings</a>
+        <a href="#catalog" class="nav-link" role="menuitem">Browse Gear</a>
         <a href="#how-it-works" class="nav-link" role="menuitem">How It Works</a>
+        <a href="#calculator" class="nav-link" role="menuitem">Earn as Host</a>
+        <a href="/dashboard.html" class="nav-link" role="menuitem">My Bookings</a>
       </div>
       <div class="navbar-actions">
         <a href="/dashboard.html" class="btn btn-outline btn-sm btn-rounded" id="nav-dashboard-btn">
-          📋 My Bookings
+          📋 Bookings
         </a>
+        <button type="button" class="btn btn-primary btn-sm btn-rounded" id="nav-list-btn" onclick="openListGearModal()">
+          💰 List Your Gear
+        </button>
       </div>
     </div>
   </nav>
@@ -88,27 +92,26 @@
         <div class="animate-fade-up">
           <div class="hero-eyebrow">
             <span class="dot" aria-hidden="true"></span>
-            Premium Equipment Rental
+            Peer-to-Peer Creator Marketplace
           </div>
         </div>
 
         <h1 id="hero-title" class="hero-title animate-fade-up delay-100">
-          Rent the <span class="animated-gradient-text">Gear</span><br>
-          That Makes<br>
-          <span class="gradient-text">Magic Happen</span>
+          Rent Pro Gear From Creators.<br>
+          <span class="animated-gradient-text">Or List Yours &amp; Earn.</span>
         </h1>
 
         <p class="hero-subtitle animate-fade-up delay-200">
-          Professional cameras, cinema drones, and broadcast lighting — available for daily or weekly rental with instant live pricing and same-day booking confirmation.
+          The trusted platform connecting filmmakers, photographers, and drone pilots. Rent cameras and lenses from verified local creators, or list your equipment to earn passive income with 100% verified security &amp; $10,000 protection.
         </p>
 
         <div class="hero-actions animate-fade-up delay-300">
           <a href="#catalog" class="btn btn-primary btn-xl btn-rounded" id="hero-cta-btn">
             🎬 Browse Gear
           </a>
-          <a href="#how-it-works" class="btn btn-outline btn-xl btn-rounded" id="hero-how-btn">
-            How It Works →
-          </a>
+          <button type="button" onclick="openListGearModal()" class="btn btn-accent btn-xl btn-rounded" id="hero-list-btn" style="box-shadow: 0 4px 20px rgba(245, 158, 11, 0.35);">
+            💰 List Your Gear Free
+          </button>
         </div>
 
         <!-- Stats: all computed live from real API data.
@@ -117,19 +120,19 @@
         <div class="hero-stats animate-fade-up delay-400">
           <div class="hero-stat">
             <div class="hero-stat-value" id="stat-gear">—</div>
-            <div class="hero-stat-label">Gear Items</div>
+            <div class="hero-stat-label">Gear Listed</div>
           </div>
           <div class="hero-stat">
             <div class="hero-stat-value" id="stat-rentals">—</div>
-            <div class="hero-stat-label">Confirmed Bookings</div>
+            <div class="hero-stat-label">Active Bookings</div>
           </div>
           <div class="hero-stat">
-            <div class="hero-stat-value" id="stat-rating">—</div>
-            <div class="hero-stat-label">Avg Rating</div>
+            <div class="hero-stat-value">$10,000</div>
+            <div class="hero-stat-label">Gear Protection</div>
           </div>
           <div class="hero-stat">
             <div class="hero-stat-value" id="stat-cats">—</div>
-            <div class="hero-stat-label">Categories</div>
+            <div class="hero-stat-label">Gear Categories</div>
           </div>
         </div>
       </div>
@@ -248,37 +251,171 @@
 
     <div class="section-divider"></div>
 
-    <!-- ── How It Works ── -->
+    <!-- ── How It Works (Peer-to-Peer Workflow) ── -->
     <section id="how-it-works" class="section" aria-labelledby="how-title" style="background: linear-gradient(180deg, var(--clr-bg) 0%, var(--clr-bg-1) 100%);">
       <div class="container">
         <div class="section-header" style="text-align:center;">
-          <div class="section-eyebrow" style="justify-content:center; margin-bottom: var(--space-sm);">Process</div>
-          <h2 id="how-title" class="section-title" style="text-align:center;">Simple. Fast. Professional.</h2>
-          <p class="section-subtitle" style="text-align:center; margin:0 auto;">Rent premium gear in 3 easy steps</p>
+          <div class="section-eyebrow" style="justify-content:center; margin-bottom: var(--space-sm);">Peer-to-Peer Process</div>
+          <h2 id="how-title" class="section-title" style="text-align:center;">Simple. Safe. Creator-to-Creator.</h2>
+          <p class="section-subtitle" style="text-align:center; margin:0 auto 24px;">Whether you need gear for a shoot or want to turn your idle cameras into income</p>
+
+          <!-- Perspective Switcher -->
+          <div class="p2p-workflow-tabs">
+            <button type="button" class="p2p-tab-btn active" id="p2p-tab-renter">
+              <span>🎬</span> For Renters (Borrow Gear)
+            </button>
+            <button type="button" class="p2p-tab-btn" id="p2p-tab-owner">
+              <span>💰</span> For Equipment Owners (List &amp; Earn)
+            </button>
+          </div>
         </div>
 
-        <div class="steps-grid">
+        <!-- Renters Flow -->
+        <div class="steps-grid" id="workflow-renters">
           <div class="glass-card step-card reveal-hidden">
             <div class="step-number">01</div>
             <div class="step-icon-wrap">🔍</div>
-            <h3 class="step-title">Browse &amp; Choose</h3>
-            <p class="step-desc">Filter by category, search by name, and explore detailed specs — sensor size, resolution, weight — for every piece of gear.</p>
+            <h3 class="step-title">Find Local Creator Gear</h3>
+            <p class="step-desc">Browse cameras, cinema primes, drones, and lighting packages from verified filmmakers near you with transparent daily rates.</p>
           </div>
           <div class="glass-card step-card reveal-hidden" style="transition-delay:100ms">
             <div class="step-number">02</div>
-            <div class="step-icon-wrap">📅</div>
-            <h3 class="step-title">Pick Dates &amp; See Pricing</h3>
-            <p class="step-desc">Select your rental window and watch the live price update instantly — weekly rate savings applied automatically when you book 7+ days.</p>
+            <div class="step-icon-wrap">🛡️</div>
+            <h3 class="step-title">Book with Escrow Protection</h3>
+            <p class="step-desc">Lock in your dates with instant calculation. Your deposit and rental payment are held in secure escrow until you inspect the gear.</p>
           </div>
           <div class="glass-card step-card reveal-hidden" style="transition-delay:200ms">
             <div class="step-number">03</div>
-            <div class="step-icon-wrap">✅</div>
-            <h3 class="step-title">Book &amp; Confirm</h3>
-            <p class="step-desc">Enter your details and get instant booking confirmation with a unique Booking ID. Manage all rentals from your personal dashboard.</p>
+            <div class="step-icon-wrap">🎥</div>
+            <h3 class="step-title">Pick Up, Shoot &amp; Return</h3>
+            <p class="step-desc">Meet your local host creator, inspect the kit, and capture your production. Return on time and your security deposit is released.</p>
           </div>
         </div>
+
+        <!-- Owners Flow -->
+        <div class="steps-grid" id="workflow-owners" style="display:none;">
+          <div class="glass-card step-card reveal-hidden">
+            <div class="step-number">01</div>
+            <div class="step-icon-wrap">📝</div>
+            <h3 class="step-title">List Your Gear in 2 Mins</h3>
+            <p class="step-desc">Set your daily price, deposit requirement, and city. It's 100% free to list — no setup fees or hidden subscription costs.</p>
+          </div>
+          <div class="glass-card step-card reveal-hidden" style="transition-delay:100ms">
+            <div class="step-number">02</div>
+            <div class="step-icon-wrap">🪪</div>
+            <h3 class="step-title">Accept Verified Renters</h3>
+            <p class="step-desc">Review booking requests with verified creator IDs and deposits. You decide who rents your equipment and manage your own calendar.</p>
+          </div>
+          <div class="glass-card step-card reveal-hidden" style="transition-delay:200ms">
+            <div class="step-number">03</div>
+            <div class="step-icon-wrap">💵</div>
+            <h3 class="step-title">Hand Off &amp; Get Paid</h3>
+            <p class="step-desc">Hand off gear safely. Backed by our $10,000 Gear Protection Guarantee against damage or theft. Direct payout straight to your bank.</p>
+          </div>
+        </div>
+
       </div>
     </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── Owner Earnings Calculator ── -->
+    <section id="calculator" class="section" aria-label="Host Earnings Calculator">
+      <div class="container">
+        <div class="section-header" style="text-align:center;">
+          <div class="section-eyebrow" style="justify-content:center; margin-bottom: var(--space-sm);">Passive Creator Income</div>
+          <h2 class="section-title" style="text-align:center;">How Much Could Your Gear Earn?</h2>
+          <p class="section-subtitle" style="text-align:center; margin:0 auto;">Most cameras and drones sit on shelves 25 days a month. Turn idle gear into monthly cash flow.</p>
+        </div>
+
+        <div class="calc-card">
+          <!-- Left: Controls -->
+          <div>
+            <div style="font-size:0.85rem; font-weight:700; color:var(--clr-accent); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Select Equipment Type</div>
+            <div class="calc-gear-selector">
+              <button type="button" class="calc-gear-btn active" data-category="cameras" data-rate="79">
+                <div style="font-size:1.4rem;">🎬</div>
+                <div style="font-weight:700; font-size:0.92rem; margin-top:4px;">Cinema Camera</div>
+                <div style="font-size:0.75rem; color:var(--clr-text-3);">$79/day avg</div>
+              </button>
+              <button type="button" class="calc-gear-btn" data-category="drones" data-rate="89">
+                <div style="font-size:1.4rem;">🚁</div>
+                <div style="font-weight:700; font-size:0.92rem; margin-top:4px;">Drone / Aerial</div>
+                <div style="font-size:0.75rem; color:var(--clr-text-3);">$89/day avg</div>
+              </button>
+              <button type="button" class="calc-gear-btn" data-category="lighting" data-rate="45">
+                <div style="font-size:1.4rem;">💡</div>
+                <div style="font-weight:700; font-size:0.92rem; margin-top:4px;">Lighting Kit</div>
+                <div style="font-size:0.75rem; color:var(--clr-text-3);">$45/day avg</div>
+              </button>
+              <button type="button" class="calc-gear-btn" data-category="cameras" data-rate="55">
+                <div style="font-size:1.4rem;">📸</div>
+                <div style="font-weight:700; font-size:0.92rem; margin-top:4px;">Mirrorless / DSLR</div>
+                <div style="font-size:0.75rem; color:var(--clr-text-3);">$55/day avg</div>
+              </button>
+            </div>
+
+            <div style="margin-top:var(--space-lg);">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <label for="calc-days-slider" style="font-weight:600; font-size:0.92rem; color:var(--clr-text-1);">Estimated Days Rented Per Month:</label>
+                <span id="calc-days-val" style="font-weight:700; color:var(--clr-accent); font-size:1.1rem;">6 days/mo</span>
+              </div>
+              <input type="range" id="calc-days-slider" class="glass-slider" min="1" max="20" value="6" style="width:100%;" />
+            </div>
+
+            <div style="margin-top:var(--space-md); display:flex; align-items:center; gap:12px;">
+              <label for="calc-rate-input" style="font-size:0.85rem; color:var(--clr-text-2);">Custom Daily Rate ($):</label>
+              <input type="number" id="calc-rate-input" value="79" min="10" max="1000" style="width:100px; padding:6px 10px; background:rgba(255,255,255,0.06); border:1px solid var(--clr-border); border-radius:var(--radius-md); color:#fff; font-weight:700;" />
+            </div>
+          </div>
+
+          <!-- Right: Projected Result -->
+          <div class="calc-result-box">
+            <div style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--clr-text-3); font-weight:700;">Your Estimated Host Earnings</div>
+            <div id="calc-monthly-val" style="font-size:clamp(2.4rem, 5vw, 3.6rem); font-weight:900; color:#fff; font-family:var(--font-display); margin:10px 0;">$436</div>
+            <div style="font-size:0.95rem; color:var(--clr-text-2); margin-bottom:var(--space-md);">
+              or <strong id="calc-yearly-val" style="color:var(--clr-accent);">$5,232</strong> / year passive income
+            </div>
+            
+            <div style="background:rgba(255,255,255,0.04); border-radius:var(--radius-lg); padding:10px; font-size:0.8rem; color:var(--clr-text-3); margin-bottom:var(--space-lg); text-align:left;">
+              <div>🛡️ <strong>$10,000 Gear Coverage</strong> included</div>
+              <div style="margin-top:4px;">💳 You keep <strong>92%</strong> of booking revenue</div>
+            </div>
+
+            <button type="button" class="btn btn-accent btn-lg btn-rounded" id="calc-list-cta" style="width:100%;">
+              💰 List Your Gear Now →
+            </button>
+          </div>
+        </div>
+
+        <!-- Creator Trust & Protection Badges -->
+        <div class="protection-grid">
+          <div class="protection-card">
+            <div style="font-size:2rem; margin-bottom:10px;">🛡️</div>
+            <h4 style="font-size:1.05rem; font-weight:700; margin-bottom:6px;">$10,000 Equipment Coverage</h4>
+            <p style="font-size:0.85rem; color:var(--clr-text-3); line-height:1.6;">Every verified listing is backed against physical damage, loss, or theft during the active rental period.</p>
+          </div>
+          <div class="protection-card">
+            <div style="font-size:2rem; margin-bottom:10px;">🪪</div>
+            <h4 style="font-size:1.05rem; font-weight:700; margin-bottom:6px;">ID-Verified Creators</h4>
+            <p style="font-size:0.85rem; color:var(--clr-text-3); line-height:1.6;">Renters must submit government ID and social verification before they can place a booking request.</p>
+          </div>
+          <div class="protection-card">
+            <div style="font-size:2rem; margin-bottom:10px;">💳</div>
+            <h4 style="font-size:1.05rem; font-weight:700; margin-bottom:6px;">Security Deposit Escrow</h4>
+            <p style="font-size:0.85rem; color:var(--clr-text-3); line-height:1.6;">Security deposits are pre-authorized on the renter's card and held securely until gear is safely returned.</p>
+          </div>
+          <div class="protection-card">
+            <div style="font-size:2rem; margin-bottom:10px;">⚡</div>
+            <h4 style="font-size:1.05rem; font-weight:700; margin-bottom:6px;">Direct Payouts</h4>
+            <p style="font-size:0.85rem; color:var(--clr-text-3); line-height:1.6;">Earnings are automatically transferred to your bank account within 24 hours of successful handover.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
 
     <!-- ── Catalog ── -->
     <section id="catalog" class="section" aria-labelledby="catalog-title">
@@ -375,6 +512,116 @@
       </nav>
     </div>
   </footer>
+
+  <!-- ── List Your Gear Modal ── -->
+  <div class="modal-overlay" id="list-gear-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--clr-accent); font-weight:700;">Peer-to-Peer Creator Hub</div>
+          <h2 id="modal-title" style="font-size:1.5rem; font-weight:800; font-family:var(--font-display); margin-top:2px;">List Your Equipment for Rent</h2>
+          <p style="font-size:0.85rem; color:var(--clr-text-2); margin-top:4px;">Earn money from your cameras and drones. Backed by our $10,000 GearRent Protection Guarantee.</p>
+        </div>
+        <button type="button" class="modal-close-btn" id="modal-close-btn" aria-label="Close modal">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <form id="list-gear-form">
+          <!-- Gear Details -->
+          <div style="margin-bottom:var(--space-lg);">
+            <div style="font-size:0.8rem; font-weight:700; color:var(--clr-primary-l); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;">1. Equipment Information</div>
+            
+            <div class="form-row">
+              <div class="form-group" style="margin-bottom:var(--space-md);">
+                <label for="list-name" class="form-label">Gear / Camera Model *</label>
+                <input type="text" id="list-name" class="form-input" placeholder="e.g. Sony FX3 Cinema Rig" required />
+              </div>
+              <div class="form-group" style="margin-bottom:var(--space-md);">
+                <label for="list-category" class="form-label">Category *</label>
+                <select id="list-category" class="form-select" required>
+                  <option value="cameras">🎬 Cameras &amp; Cinema</option>
+                  <option value="drones">🚁 Drones &amp; Aerial</option>
+                  <option value="lighting">💡 Lighting &amp; Studio</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:var(--space-md);">
+              <label for="list-tagline" class="form-label">Short Tagline / Included Accessories</label>
+              <input type="text" id="list-tagline" class="form-input" placeholder="e.g. 4K 120fps Full-Frame • Includes 3 batteries &amp; cage" />
+            </div>
+
+            <div class="form-group" style="margin-bottom:var(--space-md);">
+              <label for="list-description" class="form-label">Description &amp; Condition</label>
+              <textarea id="list-description" class="form-textarea" rows="3" placeholder="Describe the item condition, package contents, lenses included, or pickup instructions..."></textarea>
+            </div>
+          </div>
+
+          <!-- Pricing & Location -->
+          <div style="margin-bottom:var(--space-lg);">
+            <div style="font-size:0.8rem; font-weight:700; color:var(--clr-primary-l); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;">2. Rates &amp; Handover Location</div>
+            
+            <div class="form-row">
+              <div class="form-group" style="margin-bottom:var(--space-md);">
+                <label for="list-rate" class="form-label">Daily Rental Rate ($) *</label>
+                <input type="number" id="list-rate" class="form-input" placeholder="e.g. 75" min="10" max="1500" required />
+              </div>
+              <div class="form-group" style="margin-bottom:var(--space-md);">
+                <label for="list-deposit" class="form-label">Security Deposit ($) <span style="font-weight:400; font-size:0.75rem; color:var(--clr-text-3);">(Auto-suggested 4x)</span></label>
+                <input type="number" id="list-deposit" class="form-input" placeholder="e.g. 300" min="0" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group" style="margin-bottom:var(--space-md);">
+                <label for="list-location" class="form-label">Your City / Handover Location *</label>
+                <input type="text" id="list-location" class="form-input" placeholder="e.g. Brooklyn, NY / Metro Area" required />
+              </div>
+              <div class="form-group" style="margin-bottom:var(--space-md);">
+                <label for="list-image" class="form-label">Photo URL <span style="font-weight:400; font-size:0.75rem; color:var(--clr-text-3);">(Optional)</span></label>
+                <input type="url" id="list-image" class="form-input" placeholder="https://... (leave blank for high-res stock photo)" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Owner Profile -->
+          <div style="margin-bottom:var(--space-xl);">
+            <div style="font-size:0.8rem; font-weight:700; color:var(--clr-primary-l); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;">3. Your Creator / Host Contact</div>
+            
+            <div class="form-row">
+              <div class="form-group" style="margin-bottom:var(--space-md);">
+                <label for="list-owner-name" class="form-label">Your Name / Production Studio *</label>
+                <input type="text" id="list-owner-name" class="form-input" placeholder="e.g. Alex Rivera" required />
+              </div>
+              <div class="form-group" style="margin-bottom:var(--space-md);">
+                <label for="list-owner-email" class="form-label">Email for Booking Inquiries *</label>
+                <input type="email" id="list-owner-email" class="form-input" placeholder="alex@creativestudio.com" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="list-owner-phone" class="form-label">Phone / WhatsApp <span style="font-weight:400; font-size:0.75rem; color:var(--clr-text-3);">(Optional, for local handover)</span></label>
+              <input type="tel" id="list-owner-phone" class="form-input" placeholder="+1 (555) 000-0000" />
+            </div>
+          </div>
+
+          <div style="background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.2); border-radius:var(--radius-lg); padding:12px; margin-bottom:var(--space-xl); font-size:0.82rem; color:var(--clr-text-2); display:flex; gap:10px; align-items:flex-start;">
+            <span style="font-size:1.1rem;">🛡️</span>
+            <div>
+              <strong>Host Guarantee:</strong> Your gear is protected up to $10,000 against theft &amp; damage. All renters are identity-verified and require deposit pre-authorization.
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; gap:var(--space-md);">
+            <button type="button" class="btn btn-ghost" onclick="closeListGearModal()">Cancel</button>
+            <button type="submit" class="btn btn-accent btn-lg btn-rounded" id="list-submit-btn">
+              🚀 Publish Listing Free
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
   <!-- Toast container -->
   <div class="toast-container" id="toast-container" aria-live="polite" aria-atomic="true"></div>

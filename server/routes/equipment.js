@@ -54,7 +54,107 @@ router.get('/:id', (req, res) => {
   }
 });
 
-// GET /api/equipment/category/list — get distinct categories
+// POST /api/equipment — add a new owner listing (Peer-to-Peer marketplace)
+router.post('/', (req, res) => {
+  try {
+    const {
+      name,
+      category,
+      tagline,
+      description,
+      dailyRate,
+      deposit,
+      location,
+      ownerName,
+      ownerEmail,
+      ownerPhone,
+      image,
+      features,
+      specs
+    } = req.body;
+
+    if (!name || !category || !dailyRate) {
+      return res.status(400).json({
+        success: false,
+        error: 'Missing required fields: name, category, and dailyRate are required.'
+      });
+    }
+
+    const raw = fs.readFileSync(DATA_PATH, 'utf8');
+    const data = JSON.parse(raw);
+    const rate = parseFloat(dailyRate) || 50;
+    const weeklyRate = Math.round(rate * 5.5);
+    const dep = deposit !== undefined && deposit !== '' ? parseFloat(deposit) : Math.round(rate * 4);
+
+    const prefix = category === 'cameras' ? 'cam' : category === 'drones' ? 'drone' : category === 'lighting' ? 'light' : 'gear';
+    const id = `owner-${prefix}-${Date.now().toString(36)}`;
+
+    // Fallback stock images if no image provided
+    let finalImage = image;
+    if (!finalImage || !finalImage.trim()) {
+      const fallbackImages = {
+        cameras: '/images/sony-fx6.jpg',
+        drones: '/images/dji-mavic3.jpg',
+        lighting: '/images/aputure-600d.jpg'
+      };
+      finalImage = fallbackImages[category.toLowerCase()] || '/images/sony-fx6.jpg';
+    }
+
+    const newEquipment = {
+      id,
+      name: name.trim(),
+      category: category.toLowerCase().trim(),
+      tagline: tagline && tagline.trim() ? tagline.trim() : `Hosted by ${ownerName || 'Verified Creator'}`,
+      description: description && description.trim() ? description.trim() : `Available for rent directly from local creator in ${location || 'your area'}. Inspected, sanitized, and shoot-ready.`,
+      image: finalImage,
+      dailyRate: rate,
+      weeklyRate,
+      deposit: dep,
+      location: location && location.trim() ? location.trim() : 'Local Pickup & Handover',
+      specs: specs && Object.keys(specs).length ? specs : {
+        "Host": ownerName || "Verified Creator",
+        "Condition": "Mint / Production-Ready",
+        "Location": location || "Metro Area",
+        "Protection": "$10,000 GearRent Coverage",
+        "Handover": "In-person meetup or local courier"
+      },
+      features: Array.isArray(features) && features.length ? features : [
+        "Creator Verified Host",
+        "$10,000 Equipment Protection",
+        "Direct Creator Handover",
+        "Instant Booking Available"
+      ],
+      available: true,
+      rating: 5.0,
+      reviews: 1,
+      badge: "Creator Host",
+      owner: {
+        name: ownerName && ownerName.trim() ? ownerName.trim() : 'Independent Creator',
+        email: ownerEmail || '',
+        phone: ownerPhone || '',
+        location: location || 'Local Area',
+        verified: true,
+        memberSince: new Date().getFullYear().toString()
+      },
+      createdAt: new Date().toISOString()
+    };
+
+    // Add to front of equipment list so new listings appear prominently
+    data.equipment.unshift(newEquipment);
+    fs.writeFileSync(DATA_PATH, JSON.stringify(data, null, 2), 'utf8');
+
+    res.status(201).json({
+      success: true,
+      message: 'Gear listed successfully!',
+      equipment: newEquipment
+    });
+  } catch (err) {
+    console.error('Error adding equipment:', err);
+    res.status(500).json({ success: false, error: 'Failed to save equipment listing', message: err.message });
+  }
+});
+
+// GET /api/equipment/meta/categories — get distinct categories
 router.get('/meta/categories', (req, res) => {
   try {
     const items = loadEquipment();
@@ -66,3 +166,5 @@ router.get('/meta/categories', (req, res) => {
 });
 
 module.exports = router;
+
+

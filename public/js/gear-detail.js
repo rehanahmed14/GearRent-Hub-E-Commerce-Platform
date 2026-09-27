@@ -148,6 +148,25 @@ function renderDetail(item) {
                 <div class="gear-price-label">Platform Fee</div>
                 <div style="font-size:1.1rem; font-weight:700; color:var(--clr-text-2);">8% of rental</div>
               </div>
+          </div>
+
+          <!-- Verified Host / Creator Guarantee Card -->
+          <div class="glass-card" style="margin-top:var(--space-xl); padding: var(--space-lg); border: 1px solid var(--clr-border);">
+            <div style="display:flex; align-items:center; gap: 14px;">
+              <div style="font-size:1.8rem; width:48px; height:48px; border-radius:50%; background:rgba(99,102,241,0.15); border:1px solid rgba(99,102,241,0.3); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                ${item.owner ? '👤' : '🛡️'}
+              </div>
+              <div>
+                <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--clr-accent); font-weight:700;">
+                  ${item.owner ? 'Verified Creator Host' : 'GearRent Peer-to-Peer Network'}
+                </div>
+                <div style="font-weight:700; color:#fff; font-size:1.05rem; margin-top:1px;">
+                  ${item.owner ? `${item.owner.name} • ${item.location || 'Local Area'}` : 'Direct Creator Exchange'}
+                </div>
+                <div style="font-size:0.8rem; color:var(--clr-text-3); margin-top:3px;">
+                  🛡️ Protected by $10,000 Gear Coverage • ID &amp; Deposit Escrow Verified
+                </div>
+              </div>
             </div>
           </div>
         </div>

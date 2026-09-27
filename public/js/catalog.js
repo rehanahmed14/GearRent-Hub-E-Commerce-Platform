@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
   loadCatalog();       // also triggers stats after data arrives
   initSearch();
   initCategoryTabs();
+  initListGearModal();
+  initEarningsCalculator();
+  initP2PWorkflow();
 });
 
 function initNavbar() {
@@ -99,6 +102,14 @@ function createGearCard(item) {
         <div class="gear-card-category ${item.category}">${item.category}</div>
         <h2 class="gear-card-name">${item.name}</h2>
         <p class="gear-card-tagline">${item.tagline}</p>
+        ${item.owner && item.owner.name ? `
+          <div style="display:flex; align-items:center; gap:6px; font-size:0.75rem; color:var(--clr-text-2); margin:4px 0 8px;">
+            <span style="color:var(--clr-accent);">🤝</span>
+            <span>Host: <strong>${item.owner.name}</strong> • ${item.location || 'Local Creator'}</span>
+          </div>
+        ` : (item.location ? `
+          <div style="font-size:0.75rem; color:var(--clr-text-3); margin:4px 0 8px;">📍 ${item.location}</div>
+        ` : '')}
         <div class="gear-card-rating">
           ${item.reviews === 0
             ? `<span class="text-faint" style="font-size:0.8rem; font-style:italic;">Be the first to review</span>`
@@ -265,3 +276,204 @@ function animateCounter(id, target, suffix = '', decimals = 0) {
     if (start >= target) clearInterval(timer);
   }, step);
 }
+
+// ── P2P Modal & Listing Logic ─────────────────────────────────
+function openListGearModal(presetCategory) {
+  const modal = document.getElementById('list-gear-modal');
+  if (!modal) return;
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+
+  if (presetCategory) {
+    const catSelect = document.getElementById('list-category');
+    if (catSelect) catSelect.value = presetCategory;
+  }
+}
+
+function closeListGearModal() {
+  const modal = document.getElementById('list-gear-modal');
+  if (!modal) return;
+  modal.classList.remove('active');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+function initListGearModal() {
+  const modal = document.getElementById('list-gear-modal');
+  if (!modal) return;
+
+  // Close on backdrop click
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeListGearModal();
+  });
+
+  // Close button
+  const closeBtn = document.getElementById('modal-close-btn');
+  if (closeBtn) closeBtn.addEventListener('click', closeListGearModal);
+
+  // Close on Esc key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+      closeListGearModal();
+    }
+  });
+
+  // Auto-calculate suggested deposit when rate is typed
+  const rateInput = document.getElementById('list-rate');
+  const depositInput = document.getElementById('list-deposit');
+  if (rateInput && depositInput) {
+    rateInput.addEventListener('input', () => {
+      const val = parseFloat(rateInput.value);
+      if (!isNaN(val) && val > 0 && !depositInput.dataset.userEdited) {
+        depositInput.value = Math.round(val * 4);
+      }
+    });
+    depositInput.addEventListener('input', () => {
+      depositInput.dataset.userEdited = 'true';
+    });
+  }
+
+  // Handle Form Submission
+  const form = document.getElementById('list-gear-form');
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = document.getElementById('list-submit-btn');
+
+    const name = document.getElementById('list-name').value.trim();
+    const category = document.getElementById('list-category').value;
+    const dailyRate = parseFloat(document.getElementById('list-rate').value);
+    const deposit = parseFloat(document.getElementById('list-deposit').value) || (dailyRate * 4);
+    const location = document.getElementById('list-location').value.trim();
+    const tagline = document.getElementById('list-tagline').value.trim();
+    const description = document.getElementById('list-description').value.trim();
+    const ownerName = document.getElementById('list-owner-name').value.trim();
+    const ownerEmail = document.getElementById('list-owner-email').value.trim();
+    const ownerPhone = document.getElementById('list-owner-phone').value.trim();
+    const imageUrl = document.getElementById('list-image').value.trim();
+
+    if (!name || !category || isNaN(dailyRate) || !ownerName || !ownerEmail) {
+      showToast('error', 'Missing Information', 'Please fill in gear name, category, daily rate, and your contact info.');
+      return;
+    }
+
+    try {
+      setLoading(submitBtn, true);
+      const res = await createEquipmentListing({
+        name,
+        category,
+        dailyRate,
+        deposit,
+        location,
+        tagline: tagline || `Hosted by ${ownerName}`,
+        description: description || `Available for rent in ${location || 'local area'}. Fully tested and production ready.`,
+        ownerName,
+        ownerEmail,
+        ownerPhone,
+        image: imageUrl || ''
+      });
+
+      if (res && res.success) {
+        showToast('success', 'Gear Listed Successfully!', `${name} is now live on GearRent Hub.`);
+        form.reset();
+        closeListGearModal();
+        
+        // Reload catalog to display new listing right away
+        await loadCatalog();
+
+        // Scroll to catalog so user sees their new listing
+        const catEl = document.getElementById('catalog');
+        if (catEl) catEl.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        showToast('error', 'Listing Failed', (res && res.error) || 'Could not save listing.');
+      }
+    } catch (err) {
+      console.error('List gear error:', err);
+      showToast('error', 'Submission Failed', err.message || 'Something went wrong. Please try again.');
+    } finally {
+      setLoading(submitBtn, false);
+    }
+  });
+}
+
+// ── Owner Earnings Calculator ─────────────────────────────────
+let currentCalcRate = 79;
+let currentCalcCategory = 'cameras';
+
+function initEarningsCalculator() {
+  const slider = document.getElementById('calc-days-slider');
+  const daysVal = document.getElementById('calc-days-val');
+  const monthVal = document.getElementById('calc-monthly-val');
+  const yearVal = document.getElementById('calc-yearly-val');
+  const rateInput = document.getElementById('calc-rate-input');
+  const gearBtns = document.querySelectorAll('.calc-gear-btn');
+
+  if (!slider || !daysVal || !monthVal) return;
+
+  function updateCalc() {
+    const days = parseInt(slider.value, 10);
+    daysVal.textContent = `${days} day${days > 1 ? 's' : ''}/mo`;
+
+    const rate = rateInput ? (parseFloat(rateInput.value) || currentCalcRate) : currentCalcRate;
+    // Host earns 92% of the rental rate (platform takes 8% escrow commission)
+    const hostCut = 0.92;
+    const monthly = Math.round(days * rate * hostCut);
+    const yearly = monthly * 12;
+
+    monthVal.textContent = formatCurrency(monthly);
+    if (yearVal) yearVal.textContent = formatCurrency(yearly);
+  }
+
+  slider.addEventListener('input', updateCalc);
+
+  if (rateInput) {
+    rateInput.addEventListener('input', updateCalc);
+  }
+
+  gearBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      gearBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCalcRate = parseFloat(btn.dataset.rate) || 79;
+      currentCalcCategory = btn.dataset.category || 'cameras';
+      if (rateInput) rateInput.value = currentCalcRate;
+      updateCalc();
+    });
+  });
+
+  const calcCta = document.getElementById('calc-list-cta');
+  if (calcCta) {
+    calcCta.addEventListener('click', () => {
+      openListGearModal(currentCalcCategory);
+    });
+  }
+
+  updateCalc();
+}
+
+// ── P2P Workflow Tabs (Renters vs Owners) ─────────────────────
+function initP2PWorkflow() {
+  const tabRenter = document.getElementById('p2p-tab-renter');
+  const tabOwner = document.getElementById('p2p-tab-owner');
+  const flowRenter = document.getElementById('workflow-renters');
+  const flowOwner = document.getElementById('workflow-owners');
+
+  if (!tabRenter || !tabOwner || !flowRenter || !flowOwner) return;
+
+  tabRenter.addEventListener('click', () => {
+    tabRenter.classList.add('active');
+    tabOwner.classList.remove('active');
+    flowRenter.style.display = 'grid';
+    flowOwner.style.display = 'none';
+  });
+
+  tabOwner.addEventListener('click', () => {
+    tabOwner.classList.add('active');
+    tabRenter.classList.remove('active');
+    flowOwner.style.display = 'grid';
+    flowRenter.style.display = 'none';
+  });
+}
+

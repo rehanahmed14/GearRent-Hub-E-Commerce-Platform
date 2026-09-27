@@ -23,6 +23,30 @@
       },
       "status": "confirmed",
       "createdAt": "2026-09-27T14:10:04.927Z"
+    },
+    {
+      "id": "BK-C3E9E38E",
+      "equipmentId": "owner-cam-muk2d15c",
+      "equipmentName": "Canon EOS R6 Mark II",
+      "equipmentCategory": "cameras",
+      "startDate": "2026-10-01",
+      "endDate": "2026-10-05",
+      "days": 4,
+      "customer": {
+        "name": "Elena Rostova",
+        "email": "elena@filmcrew.com",
+        "phone": "555-123-4567"
+      },
+      "pricing": {
+        "rentalBase": 180,
+        "platformFee": 14.4,
+        "deposit": 200,
+        "subtotal": 194.4,
+        "totalWithDeposit": 394.4,
+        "currency": "USD"
+      },
+      "status": "confirmed",
+      "createdAt": "2026-09-27T17:00:08.196Z"
     }
   ]
 }
