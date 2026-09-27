@@ -3,6 +3,7 @@ const router = express.Router();
 const fs = require('fs');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
+const { optionalAuth } = require('../middleware/auth');
 
 const BOOKINGS_PATH = path.join(__dirname, '../data/bookings.json');
 const EQUIPMENT_PATH = path.join(__dirname, '../data/equipment.json');
@@ -48,7 +49,7 @@ router.get('/:id', (req, res) => {
 });
 
 // POST /api/bookings — create new booking
-router.post('/', (req, res) => {
+router.post('/', optionalAuth, (req, res) => {
   try {
     const { equipmentId, startDate, endDate, customer } = req.body;
 
@@ -127,6 +128,7 @@ router.post('/', (req, res) => {
 
     const newBooking = {
       id: `BK-${uuidv4().split('-')[0].toUpperCase()}`,
+      userId: req.user ? req.user.id : null,
       equipmentId,
       equipmentName: item.name,
       equipmentCategory: item.category,

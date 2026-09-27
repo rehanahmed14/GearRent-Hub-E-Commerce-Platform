@@ -3,6 +3,8 @@ const router = express.Router();
 const fs = require('fs');
 const path = require('path');
 
+const { optionalAuth } = require('../middleware/auth');
+
 const DATA_PATH = path.join(__dirname, '../data/equipment.json');
 
 function loadEquipment() {
@@ -12,6 +14,7 @@ function loadEquipment() {
 
 // GET /api/equipment — list all, supports ?category=&search=&available=
 router.get('/', (req, res) => {
+
   try {
     let items = loadEquipment();
     const { category, search, available } = req.query;
@@ -55,7 +58,7 @@ router.get('/:id', (req, res) => {
 });
 
 // POST /api/equipment — add a new owner listing (Peer-to-Peer marketplace)
-router.post('/', (req, res) => {
+router.post('/', optionalAuth, (req, res) => {
   try {
     const {
       name,
@@ -129,10 +132,11 @@ router.post('/', (req, res) => {
       reviews: 1,
       badge: "Creator Host",
       owner: {
-        name: ownerName && ownerName.trim() ? ownerName.trim() : 'Independent Creator',
-        email: ownerEmail || '',
-        phone: ownerPhone || '',
-        location: location || 'Local Area',
+        userId: req.user ? req.user.id : null,
+        name: ownerName && ownerName.trim() ? ownerName.trim() : (req.user ? req.user.name : 'Independent Creator'),
+        email: ownerEmail && ownerEmail.trim() ? ownerEmail.trim() : (req.user ? req.user.email : ''),
+        phone: ownerPhone || (req.user ? req.user.phone : ''),
+        location: location || (req.user ? req.user.location : 'Local Area'),
         verified: true,
         memberSince: new Date().getFullYear().toString()
       },

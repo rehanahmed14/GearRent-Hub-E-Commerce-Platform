@@ -99,10 +99,107 @@
     </div>
   </footer>
 
+  <!-- ── Authentication Modal (Sign In / Register) ── -->
+  <div class="modal-overlay" id="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title" aria-hidden="true">
+    <div class="modal-content" style="max-width: 480px;">
+      <div class="modal-header">
+        <div>
+          <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--clr-accent); font-weight:700;">Creator Community</div>
+          <h2 id="auth-modal-title" style="font-size:1.4rem; font-weight:800; font-family:var(--font-display); margin-top:2px;">GearRent Hub Account</h2>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="closeAuthModal()" aria-label="Close modal">✕</button>
+      </div>
+
+      <div class="modal-body" style="padding-top:var(--space-md);">
+        <!-- Tabs -->
+        <div class="auth-tabs">
+          <button type="button" class="auth-tab-btn active" id="auth-tab-login" onclick="switchAuthTab('login')">
+            Sign In
+          </button>
+          <button type="button" class="auth-tab-btn" id="auth-tab-signup" onclick="switchAuthTab('signup')">
+            Create Account
+          </button>
+        </div>
+
+        <!-- Sign In Pane -->
+        <div id="auth-pane-login">
+          <form id="auth-login-form">
+            <div class="form-group" style="margin-bottom:var(--space-md);">
+              <label for="login-email" class="form-label">Email Address</label>
+              <input type="email" id="login-email" class="form-input" placeholder="you@domain.com" required autocomplete="email" />
+            </div>
+
+            <div class="form-group" style="margin-bottom:var(--space-lg);">
+              <label for="login-password" class="form-label">Password</label>
+              <input type="password" id="login-password" class="form-input" placeholder="••••••••" required autocomplete="current-password" />
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg btn-rounded" id="login-submit-btn" style="width:100%;">
+              🔑 Sign In to Hub
+            </button>
+
+            <div style="text-align:center; margin-top:var(--space-md); font-size:0.85rem; color:var(--clr-text-3);">
+              Don't have an account? <a href="#" onclick="switchAuthTab('signup'); return false;" style="color:var(--clr-accent); font-weight:600;">Sign up free</a>
+            </div>
+          </form>
+        </div>
+
+        <!-- Sign Up Pane -->
+        <div id="auth-pane-signup" style="display:none;">
+          <form id="auth-signup-form">
+            <div class="form-group" style="margin-bottom:var(--space-md);">
+              <label for="signup-name" class="form-label">Full Name / Studio Name *</label>
+              <input type="text" id="signup-name" class="form-input" placeholder="e.g. Maya Lin" required autocomplete="name" />
+            </div>
+
+            <div class="form-group" style="margin-bottom:var(--space-md);">
+              <label for="signup-email" class="form-label">Email Address *</label>
+              <input type="email" id="signup-email" class="form-input" placeholder="you@domain.com" required autocomplete="email" />
+            </div>
+
+            <div class="form-group" style="margin-bottom:var(--space-md);">
+              <label for="signup-password" class="form-label">Create Password * (min 6 characters)</label>
+              <input type="password" id="signup-password" class="form-input" placeholder="••••••••" minlength="6" required autocomplete="new-password" />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group" style="margin-bottom:var(--space-md);">
+                <label for="signup-role" class="form-label">I want to *</label>
+                <select id="signup-role" class="form-select">
+                  <option value="creator_host">Both Rent &amp; List Gear (Host)</option>
+                  <option value="renter">Rent Equipment (Renter Only)</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom:var(--space-md);">
+                <label for="signup-location" class="form-label">City / Location</label>
+                <input type="text" id="signup-location" class="form-input" placeholder="e.g. Brooklyn, NY" />
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:var(--space-lg);">
+              <label for="signup-phone" class="form-label">Phone Number (Optional)</label>
+              <input type="tel" id="signup-phone" class="form-input" placeholder="+1 (555) 000-0000" />
+            </div>
+
+            <button type="submit" class="btn btn-accent btn-lg btn-rounded" id="signup-submit-btn" style="width:100%;">
+              🚀 Create Account
+            </button>
+
+            <div style="text-align:center; margin-top:var(--space-md); font-size:0.85rem; color:var(--clr-text-3);">
+              Already registered? <a href="#" onclick="switchAuthTab('login'); return false;" style="color:var(--clr-primary-l); font-weight:600;">Sign in here</a>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <!-- Toast container -->
   <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
   <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
   <script src="/js/dashboard.js"></script>
   <script>
     // Responsive stats grid

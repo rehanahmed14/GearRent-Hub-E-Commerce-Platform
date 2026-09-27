@@ -7,9 +7,14 @@ const BASE_URL = '';  // Same origin — Express serves static files
 
 // ── Generic fetch wrapper ──────────────────────────────────────
 async function apiFetch(path, options = {}) {
+  const token = localStorage.getItem('gearrent_token');
+  const headers = { 'Content-Type': 'application/json', ...options.headers };
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
   const res = await fetch(`${BASE_URL}${path}`, {
-    headers: { 'Content-Type': 'application/json', ...options.headers },
     ...options,
+    headers,
   });
   const data = await res.json();
   if (!res.ok) {

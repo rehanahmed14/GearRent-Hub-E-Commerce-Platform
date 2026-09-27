@@ -1,0 +1,18 @@
+{
+  "users": [
+    {
+      "id": "usr-0ba622fc",
+      "name": "Demo Creator",
+      "email": "demo@gearrent.com",
+      "password": "$2b$10$5bjakfBE/s5HfGb0bYs/DeCB6PtOfez7zaJT1uo7/0sCSQV8KbhQe",
+      "role": "creator_host",
+      "phone": "+1 555-0199",
+      "location": "Brooklyn, NY",
+      "bio": "Independent Creator & Filmmaker",
+      "verified": true,
+      "protectionLimit": 10000,
+      "avatar": "https://api.dicebear.com/7.x/initials/svg?seed=Demo%20Creator&backgroundColor=6366f1",
+      "createdAt": "2026-09-27T17:25:01.450Z"
+    }
+  ]
+}

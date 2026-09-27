@@ -5,6 +5,7 @@ const path = require('path');
 const equipmentRoutes = require('./routes/equipment');
 const bookingsRoutes = require('./routes/bookings');
 const pricingRoutes = require('./routes/pricing');
+const authRoutes = require('./routes/auth');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -26,6 +27,7 @@ app.use(express.static(path.join(__dirname, '../public'), {
 }));
 
 // API Routes
+app.use('/api/auth', authRoutes);
 app.use('/api/equipment', equipmentRoutes);
 app.use('/api/bookings', bookingsRoutes);
 app.use('/api/pricing', pricingRoutes);
