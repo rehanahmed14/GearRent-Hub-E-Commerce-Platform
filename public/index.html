@@ -165,90 +165,6 @@
       </div>
     </div>
 
-    <!-- ── AccordionGallery — Featured Gear ── -->
-    <section class="section accordion-gallery-section" aria-label="Featured Gear">
-      <div class="container">
-        <div class="ag-header">
-          <div class="ag-header-left">
-            <div class="section-eyebrow">Featured Equipment</div>
-            <h2 class="section-title">Production-Ready Fleet</h2>
-            <p class="section-subtitle" style="margin-top:6px;">Hover across the slides to explore top-rated cinema gear ready for your next shoot</p>
-            <div class="ag-tabs">
-              <button class="ag-tab-btn active" id="ag-tab-fleet" type="button">🎬 Cinema Cameras</button>
-              <button class="ag-tab-btn" id="ag-tab-scouting" type="button">🚁 Drones &amp; Lighting</button>
-            </div>
-          </div>
-          <div class="ag-header-right">
-            <span>Hover or swipe</span> ←→
-          </div>
-        </div>
-        <!-- AccordionGallery renders here via JS -->
-        <div id="accordion-gallery-mount"></div>
-      </div>
-    </section>
-
-    <div class="section-divider"></div>
-
-    <!-- ── GlassSurface Component Showcase ── -->
-    <section class="section glass-showcase-section" id="glass-optics" aria-label="Glass Surface Optics Engine">
-      <div class="container">
-        <div class="section-header flex-between" style="flex-wrap:wrap; gap:var(--space-md);">
-          <div>
-            <div class="section-eyebrow">Optics &amp; Physics Engine</div>
-            <h2 class="section-title">GlassSurface Component System</h2>
-            <p class="section-subtitle">Real-time SVG displacement maps, chromatic aberration dispersion &amp; frosted specular reflection</p>
-          </div>
-          <div class="hero-eyebrow" style="margin-bottom:0;">
-            <span class="dot"></span>
-            GPU Accelerated
-          </div>
-        </div>
-
-        <div class="glass-showcase-grid">
-          <!-- 1. Basic Usage Example from user specification -->
-          <glass-surface width="100%" height="auto" border-radius="24" class-name="my-custom-class">
-            <div class="glass-demo-badge">Basic Surface Component</div>
-            <h2>Glass Surface Content</h2>
-            <p style="color:var(--clr-text-2); font-size:0.92rem; line-height:1.6; margin-top:6px;">
-              Pure optical substrate with frosted glassmorphism, 1px specular light catch, and internal refraction.
-            </p>
-            <div class="glass-pill-row">
-              <span class="glass-pill primary">Width: 300px</span>
-              <span class="glass-pill accent">Radius: 24px</span>
-            </div>
-          </glass-surface>
-
-          <!-- 2. Advanced Displacement Example from user specification -->
-          <glass-surface id="interactive-glass" displace="15" distortion-scale="-150" red-offset="5" green-offset="15" blue-offset="25" brightness="60" opacity="0.8" mix-blend-mode="screen" class-name="advanced-glass-card" width="100%" height="auto" border-radius="24">
-            <div class="glass-demo-badge glow">Chromatic Aberration Active</div>
-            <span>Advanced Glass Distortion</span>
-            <p style="color:var(--clr-text-2); font-size:0.92rem; line-height:1.6; margin-top:8px;">
-              Simulating an anamorphic cinema lens element: RGB spectral separation with dynamic displacement scale.
-            </p>
-            <div class="glass-pill-row">
-              <span class="glass-pill accent">Screen Blend</span>
-              <span class="glass-pill cyan">RGB Split</span>
-            </div>
-          </glass-surface>
-        </div>
-
-        <!-- Interactive Control Panel for Live Tweaking -->
-        <div class="glass-ctrl-panel">
-          <div class="glass-ctrl-group">
-            <label for="glass-displace-input">Displacement: <span id="displace-val" style="color:var(--clr-accent); font-weight:700;">15px</span></label>
-            <input type="range" id="glass-displace-input" class="glass-slider" min="0" max="40" value="15" />
-          </div>
-          <div class="glass-ctrl-group">
-            <label for="glass-bright-input">Brightness Boost: <span id="bright-val" style="color:var(--clr-primary-l); font-weight:700;">60%</span></label>
-            <input type="range" id="glass-bright-input" class="glass-slider" min="0" max="100" value="60" />
-          </div>
-          <div style="font-size:0.82rem; color:var(--clr-text-2); display:flex; align-items:center; gap:6px;">
-            <span>✨</span> <em>Adjust sliders to see live optical refraction</em>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <div class="section-divider"></div>
 
     <!-- ── How It Works (Peer-to-Peer Workflow) ── -->
@@ -728,60 +644,10 @@
   <script src="/js/catalog.js"></script>
   <script src="/js/cursor.js"></script>
 
-  <!-- ── Init AccordionGallery + GlassSurface ── -->
+  <!-- ── Init Interactive Elements ── -->
   <script>
     function initAllInteractive() {
-      // ── AccordionGallery ─────────────────────────────────
-      var agMount = document.getElementById('accordion-gallery-mount');
-      var currentAg = null;
-
-      var cameraItems = [
-        { image: '/images/arri-alexa.jpg',   label: 'ARRI Alexa Mini LF',  sublabel: '$149/day', category: 'Cameras',  link: '/gear.html?id=cam-004' },
-        { image: '/images/sony-fx6.jpg',      label: 'Sony FX6 Cinema',     sublabel: '$79/day',  category: 'Cameras',  link: '/gear.html?id=cam-001' },
-        { image: '/images/red-komodo.jpg',   label: 'RED Komodo 6K',       sublabel: '$99/day',  category: 'Cameras',  link: '/gear.html?id=cam-002' },
-        { image: '/images/canon-r5c.jpg',    label: 'Canon EOS R5C',       sublabel: '$55/day',  category: 'Cameras',  link: '/gear.html?id=cam-003' },
-      ];
-
-      var droneLightItems = [
-        { image: '/images/dji-inspire3.jpg',  label: 'DJI Inspire 3 8K',    sublabel: '$119/day', category: 'Drones',   link: '/gear.html?id=drone-002' },
-        { image: '/images/dji-mavic3.jpg',    label: 'DJI Mavic 3 Pro',     sublabel: '$39/day',  category: 'Drones',   link: '/gear.html?id=drone-001' },
-        { image: '/images/arri-skypanel.jpg', label: 'ARRI SkyPanel S60-C', sublabel: '$49/day',  category: 'Lighting', link: '/gear.html?id=light-002' },
-        { image: '/images/aputure-600d.jpg',  label: 'Aputure 600d Pro',    sublabel: '$45/day',  category: 'Lighting', link: '/gear.html?id=light-001' },
-        { image: '/images/autel-evo.jpg',     label: 'Autel EVO II Pro 6K', sublabel: '$49/day',  category: 'Drones',   link: '/gear.html?id=drone-003' },
-      ];
-
-      function renderAg(items) {
-        if (!agMount || !window.AccordionGallery) return;
-        currentAg = new AccordionGallery(agMount, {
-          items:        items,
-          defaultIndex: 1,
-          expandRatio:  0.52,
-          trigger:      'hover'
-        });
-      }
-
-      // Initial render with Cinema Cameras
-      renderAg(cameraItems);
-
-      // Tabs: Cinema Cameras vs Drones & Lighting
-      var tabFleet = document.getElementById('ag-tab-fleet');
-      var tabScouting = document.getElementById('ag-tab-scouting');
-
-      if (tabFleet && tabScouting) {
-        tabFleet.addEventListener('click', function() {
-          tabFleet.classList.add('active');
-          tabScouting.classList.remove('active');
-          renderAg(cameraItems);
-        });
-
-        tabScouting.addEventListener('click', function() {
-          tabScouting.classList.add('active');
-          tabFleet.classList.remove('active');
-          renderAg(droneLightItems);
-        });
-      }
-
-      // ── GlassSurface on hero floating badges ─────────────
+      // GlassSurface on hero floating preview badges
       var badges = document.querySelectorAll('.hero-float-1 > div, .hero-float-2 > div, .hero-float-3 > div');
       badges.forEach(function(badge) {
         if (window.GlassSurface && !badge._gsInit) {
@@ -789,50 +655,6 @@
           badge.classList.add('hero-glass-badge');
         }
       });
-
-      // ── Interactive Glass Displacement Slider ────────────
-      var displaceSlider = document.getElementById('glass-displace-input');
-      var brightSlider = document.getElementById('glass-bright-input');
-      var displaceVal = document.getElementById('displace-val');
-      var brightVal = document.getElementById('bright-val');
-      var interactiveCard = document.getElementById('interactive-glass');
-
-      function updateInteractiveGlass() {
-        if (!interactiveCard || !window.GlassSurface) return;
-        var disp = parseFloat(displaceSlider ? displaceSlider.value : 15);
-        var bright = parseFloat(brightSlider ? brightSlider.value : 60);
-
-        if (displaceVal) displaceVal.textContent = disp + 'px';
-        if (brightVal) brightVal.textContent = bright + '%';
-
-        // Re-apply with new parameters
-        interactiveCard.setAttribute('displace', disp);
-        interactiveCard.setAttribute('brightness', bright);
-
-        // Update the live SVG filter scale directly
-        var svgFilter = interactiveCard.querySelector('filter');
-        if (!svgFilter) {
-          var filterId = interactiveCard.style.getPropertyValue('--glass-filter');
-          if (filterId) {
-            var match = filterId.match(/#([a-zA-Z0-9_-]+)/);
-            if (match) svgFilter = document.getElementById(match[1]);
-          }
-        }
-        if (svgFilter) {
-          var dispMap = svgFilter.querySelector('feDisplacementMap');
-          if (dispMap) dispMap.setAttribute('scale', disp);
-          var comp = svgFilter.querySelector('feComponentTransfer');
-          if (comp) {
-            var slope = 1 + bright / 100;
-            comp.querySelectorAll('feFuncR, feFuncG, feFuncB').forEach(function(f) {
-              f.setAttribute('slope', slope);
-            });
-          }
-        }
-      }
-
-      if (displaceSlider) displaceSlider.addEventListener('input', updateInteractiveGlass);
-      if (brightSlider) brightSlider.addEventListener('input', updateInteractiveGlass);
     }
 
     if (document.readyState === 'loading') {
