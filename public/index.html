@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="/css/animations.css" />
   <link rel="stylesheet" href="/css/cursor.css" />
   <link rel="stylesheet" href="/css/glass-surface.css" />
+  <link rel="stylesheet" href="/css/accordion-gallery.css" />
   <link rel="stylesheet" href="/css/professional.css" />
 </head>
 <body>
@@ -163,6 +164,28 @@
         <span class="ticker-item"><span class="ticker-dot"></span>Godox SL200III</span>
       </div>
     </div>
+
+    <!-- ── AccordionGallery — Featured Cinema Fleet ── -->
+    <section class="section accordion-gallery-section" aria-label="Featured Gear">
+      <div class="container">
+        <div class="ag-header">
+          <div class="ag-header-left">
+            <div class="section-eyebrow">Featured Equipment</div>
+            <h2 class="section-title">Production-Ready Cinema Fleet</h2>
+            <p class="section-subtitle" style="margin-top:6px;">Hover across the slides to explore top-rated cinema gear ready for your next shoot</p>
+            <div class="ag-tabs">
+              <button class="ag-tab-btn active" id="ag-tab-fleet" type="button">🎬 Cinema Cameras</button>
+              <button class="ag-tab-btn" id="ag-tab-scouting" type="button">🚁 Drones &amp; Lighting</button>
+            </div>
+          </div>
+          <div class="ag-header-right">
+            <span>Hover or swipe</span> ←→
+          </div>
+        </div>
+        <!-- AccordionGallery renders here via JS -->
+        <div id="accordion-gallery-mount"></div>
+      </div>
+    </section>
 
     <div class="section-divider"></div>
 
@@ -638,6 +661,7 @@
   <!-- ── Scripts ── -->
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
+  <script src="/js/accordion-gallery.js"></script>
   <script src="/js/glass-surface.js"></script>
   <script src="/js/catalog.js"></script>
   <script src="/js/cursor.js"></script>
@@ -645,6 +669,56 @@
   <!-- ── Init Interactive Elements ── -->
   <script>
     function initAllInteractive() {
+      // ── AccordionGallery ─────────────────────────────────
+      var agMount = document.getElementById('accordion-gallery-mount');
+      var currentAg = null;
+
+      var cameraItems = [
+        { image: '/images/arri-alexa.jpg',   label: 'ARRI Alexa Mini LF',  sublabel: '$149/day', category: 'Cameras',  link: '/gear.html?id=cam-004' },
+        { image: '/images/sony-fx6.jpg',      label: 'Sony FX6 Cinema',     sublabel: '$79/day',  category: 'Cameras',  link: '/gear.html?id=cam-001' },
+        { image: '/images/red-komodo.jpg',   label: 'RED Komodo 6K',       sublabel: '$99/day',  category: 'Cameras',  link: '/gear.html?id=cam-002' },
+        { image: '/images/canon-r5c.jpg',    label: 'Canon EOS R5C',       sublabel: '$55/day',  category: 'Cameras',  link: '/gear.html?id=cam-003' },
+      ];
+
+      var droneLightItems = [
+        { image: '/images/dji-inspire3.jpg',  label: 'DJI Inspire 3 8K',    sublabel: '$119/day', category: 'Drones',   link: '/gear.html?id=drone-002' },
+        { image: '/images/dji-mavic3.jpg',    label: 'DJI Mavic 3 Pro',     sublabel: '$39/day',  category: 'Drones',   link: '/gear.html?id=drone-001' },
+        { image: '/images/arri-skypanel.jpg', label: 'ARRI SkyPanel S60-C', sublabel: '$49/day',  category: 'Lighting', link: '/gear.html?id=light-002' },
+        { image: '/images/aputure-600d.jpg',  label: 'Aputure 600d Pro',    sublabel: '$45/day',  category: 'Lighting', link: '/gear.html?id=light-001' },
+        { image: '/images/autel-evo.jpg',     label: 'Autel EVO II Pro 6K', sublabel: '$49/day',  category: 'Drones',   link: '/gear.html?id=drone-003' },
+      ];
+
+      function renderAg(items) {
+        if (!agMount || !window.AccordionGallery) return;
+        currentAg = new AccordionGallery(agMount, {
+          items:        items,
+          defaultIndex: 1,
+          expandRatio:  0.52,
+          trigger:      'hover'
+        });
+      }
+
+      // Initial render with Cinema Cameras
+      renderAg(cameraItems);
+
+      // Tabs: Cinema Cameras vs Drones & Lighting
+      var tabFleet = document.getElementById('ag-tab-fleet');
+      var tabScouting = document.getElementById('ag-tab-scouting');
+
+      if (tabFleet && tabScouting) {
+        tabFleet.addEventListener('click', function() {
+          tabFleet.classList.add('active');
+          tabScouting.classList.remove('active');
+          renderAg(cameraItems);
+        });
+
+        tabScouting.addEventListener('click', function() {
+          tabScouting.classList.add('active');
+          tabFleet.classList.remove('active');
+          renderAg(droneLightItems);
+        });
+      }
+
       // GlassSurface on hero floating preview badges
       var badges = document.querySelectorAll('.hero-float-1 > div, .hero-float-2 > div, .hero-float-3 > div');
       badges.forEach(function(badge) {
