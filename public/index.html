@@ -9,18 +9,11 @@
   <link rel="stylesheet" href="/css/main.css" />
   <link rel="stylesheet" href="/css/components.css" />
   <link rel="stylesheet" href="/css/animations.css" />
-  <link rel="stylesheet" href="/css/cursor.css" />
   <link rel="stylesheet" href="/css/glass-surface.css" />
   <link rel="stylesheet" href="/css/accordion-gallery.css" />
   <link rel="stylesheet" href="/css/professional.css" />
 </head>
 <body>
-
-  <!-- ── Custom Cursor Elements ── -->
-  <div id="cursor-aura"   aria-hidden="true"></div>
-  <div id="cursor-ring"   aria-hidden="true"></div>
-  <div id="cursor-dot"    aria-hidden="true"></div>
-  <div id="cursor-emotion" aria-hidden="true"></div>
 
   <!-- ── Navbar ── -->
   <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
@@ -36,11 +29,14 @@
         <a href="/dashboard.html" class="nav-link" role="menuitem">My Bookings</a>
       </div>
       <div class="navbar-actions">
-        <a href="/dashboard.html" class="btn btn-outline btn-sm btn-rounded" id="nav-dashboard-btn">
-          📋 Bookings
-        </a>
-        <button type="button" class="btn btn-primary btn-sm btn-rounded" id="nav-list-btn" onclick="openListGearModal()">
-          💰 List Your Gear
+        <button type="button" class="btn btn-ghost btn-sm" id="nav-signin-btn" onclick="openAuthModal('login')">
+          Sign In
+        </button>
+        <button type="button" class="btn btn-primary btn-sm btn-rounded" id="nav-signup-btn" onclick="openAuthModal('signup')">
+          Sign Up
+        </button>
+        <button type="button" class="btn btn-outline btn-sm btn-rounded" id="nav-list-btn" onclick="openListGearModal()">
+          💰 List Gear
         </button>
       </div>
     </div>
@@ -664,7 +660,6 @@
   <script src="/js/accordion-gallery.js"></script>
   <script src="/js/glass-surface.js"></script>
   <script src="/js/catalog.js"></script>
-  <script src="/js/cursor.js"></script>
 
   <!-- ── Init Interactive Elements ── -->
   <script>

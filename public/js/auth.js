@@ -91,7 +91,7 @@ const auth = {
 function openAuthModal(mode = 'login') {
   const modal = document.getElementById('auth-modal');
   if (!modal) return;
-  modal.classList.add('active');
+  modal.classList.add('active', 'open');
   modal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
   switchAuthTab(mode);
@@ -100,7 +100,7 @@ function openAuthModal(mode = 'login') {
 function closeAuthModal() {
   const modal = document.getElementById('auth-modal');
   if (!modal) return;
-  modal.classList.remove('active');
+  modal.classList.remove('active', 'open');
   modal.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
 }
@@ -116,13 +116,27 @@ function switchAuthTab(tab) {
     if (tabLogin) tabLogin.classList.remove('active');
     if (paneSignup) paneSignup.style.display = 'block';
     if (paneLogin) paneLogin.style.display = 'none';
+    setTimeout(() => {
+      const nameInput = document.getElementById('signup-name');
+      if (nameInput) nameInput.focus();
+    }, 50);
   } else {
     if (tabLogin) tabLogin.classList.add('active');
     if (tabSignup) tabSignup.classList.remove('active');
     if (paneLogin) paneLogin.style.display = 'block';
     if (paneSignup) paneSignup.style.display = 'none';
+    setTimeout(() => {
+      const emailInput = document.getElementById('login-email');
+      if (emailInput) emailInput.focus();
+    }, 50);
   }
 }
+
+// Explicit window assignments for cross-browser inline events
+window.openAuthModal = openAuthModal;
+window.closeAuthModal = closeAuthModal;
+window.switchAuthTab = switchAuthTab;
+window.auth = auth;
 
 // ── Dynamic Navbar Auth Display ───────────────────────────────
 function updateNavbarAuth() {
@@ -203,6 +217,12 @@ document.addEventListener('click', (e) => {
 document.addEventListener('DOMContentLoaded', () => {
   updateNavbarAuth();
   auth.fetchMe(); // silently refresh session in background
+
+  // Bind tabs explicitly
+  const tabLogin = document.getElementById('auth-tab-login');
+  if (tabLogin) tabLogin.addEventListener('click', () => switchAuthTab('login'));
+  const tabSignup = document.getElementById('auth-tab-signup');
+  if (tabSignup) tabSignup.addEventListener('click', () => switchAuthTab('signup'));
 
   // Close modal on outside click
   const authModal = document.getElementById('auth-modal');
