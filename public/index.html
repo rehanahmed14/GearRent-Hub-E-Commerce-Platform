@@ -170,12 +170,12 @@
       <div class="container">
         <div class="ag-header">
           <div class="ag-header-left">
-            <div class="section-eyebrow">Interactive Slides</div>
-            <h2 class="section-title">Accordion Gallery Experience</h2>
-            <p class="section-subtitle" style="margin-top:6px;">Hover across the slides to expand — smooth physics &amp; instant preview</p>
+            <div class="section-eyebrow">Featured Equipment</div>
+            <h2 class="section-title">Production-Ready Fleet</h2>
+            <p class="section-subtitle" style="margin-top:6px;">Hover across the slides to explore top-rated cinema gear ready for your next shoot</p>
             <div class="ag-tabs">
-              <button class="ag-tab-btn active" id="ag-tab-fleet" type="button">🎬 Cinema Fleet</button>
-              <button class="ag-tab-btn" id="ag-tab-scouting" type="button">🌄 Location Shoots (Demo)</button>
+              <button class="ag-tab-btn active" id="ag-tab-fleet" type="button">🎬 Cinema Cameras</button>
+              <button class="ag-tab-btn" id="ag-tab-scouting" type="button">🚁 Drones &amp; Lighting</button>
             </div>
           </div>
           <div class="ag-header-right">
@@ -735,36 +735,35 @@
       var agMount = document.getElementById('accordion-gallery-mount');
       var currentAg = null;
 
-      var fleetItems = [
+      var cameraItems = [
         { image: '/images/arri-alexa.jpg',   label: 'ARRI Alexa Mini LF',  sublabel: '$149/day', category: 'Cameras',  link: '/gear.html?id=cam-004' },
-        { image: '/images/dji-inspire3.jpg',  label: 'DJI Inspire 3',       sublabel: '$119/day', category: 'Drones',   link: '/gear.html?id=drone-002' },
-        { image: '/images/arri-skypanel.jpg', label: 'ARRI SkyPanel S60-C', sublabel: '$49/day',  category: 'Lighting', link: '/gear.html?id=light-002' },
-        { image: '/images/sony-fx6.jpg',      label: 'Sony FX6',            sublabel: '$79/day',  category: 'Cameras',  link: '/gear.html?id=cam-001' },
-        { image: '/images/dji-mavic3.jpg',    label: 'DJI Mavic 3 Pro',     sublabel: '$39/day',  category: 'Drones',   link: '/gear.html?id=drone-001' },
+        { image: '/images/sony-fx6.jpg',      label: 'Sony FX6 Cinema',     sublabel: '$79/day',  category: 'Cameras',  link: '/gear.html?id=cam-001' },
+        { image: '/images/red-komodo.jpg',   label: 'RED Komodo 6K',       sublabel: '$99/day',  category: 'Cameras',  link: '/gear.html?id=cam-002' },
+        { image: '/images/canon-r5c.jpg',    label: 'Canon EOS R5C',       sublabel: '$55/day',  category: 'Cameras',  link: '/gear.html?id=cam-003' },
       ];
 
-      var scoutingItems = [
-        { image: 'https://picsum.photos/id/1015/900/1200', label: 'Canyon',   sublabel: 'Scouting Pass', category: 'Locations', link: '#catalog' },
-        { image: 'https://picsum.photos/id/1018/900/1200', label: 'Ridgeline',sublabel: 'Golden Hour',   category: 'Locations', link: '#catalog' },
-        { image: 'https://picsum.photos/id/1039/900/1200', label: 'Falls',    sublabel: 'Mist & Spray',  category: 'Locations', link: '#catalog' },
-        { image: 'https://picsum.photos/id/1043/900/1200', label: 'Harbour',  sublabel: 'Night Reflect', category: 'Locations', link: '#catalog' },
-        { image: 'https://picsum.photos/id/1044/900/1200', label: 'Skyline',  sublabel: 'Aerial Route',  category: 'Locations', link: '#catalog' }
+      var droneLightItems = [
+        { image: '/images/dji-inspire3.jpg',  label: 'DJI Inspire 3 8K',    sublabel: '$119/day', category: 'Drones',   link: '/gear.html?id=drone-002' },
+        { image: '/images/dji-mavic3.jpg',    label: 'DJI Mavic 3 Pro',     sublabel: '$39/day',  category: 'Drones',   link: '/gear.html?id=drone-001' },
+        { image: '/images/arri-skypanel.jpg', label: 'ARRI SkyPanel S60-C', sublabel: '$49/day',  category: 'Lighting', link: '/gear.html?id=light-002' },
+        { image: '/images/aputure-600d.jpg',  label: 'Aputure 600d Pro',    sublabel: '$45/day',  category: 'Lighting', link: '/gear.html?id=light-001' },
+        { image: '/images/autel-evo.jpg',     label: 'Autel EVO II Pro 6K', sublabel: '$49/day',  category: 'Drones',   link: '/gear.html?id=drone-003' },
       ];
 
       function renderAg(items) {
         if (!agMount || !window.AccordionGallery) return;
         currentAg = new AccordionGallery(agMount, {
           items:        items,
-          defaultIndex: 2,
+          defaultIndex: 1,
           expandRatio:  0.52,
           trigger:      'hover'
         });
       }
 
-      // Initial render with Cinema Fleet
-      renderAg(fleetItems);
+      // Initial render with Cinema Cameras
+      renderAg(cameraItems);
 
-      // Tabs: Cinema Fleet vs Location Scouting
+      // Tabs: Cinema Cameras vs Drones & Lighting
       var tabFleet = document.getElementById('ag-tab-fleet');
       var tabScouting = document.getElementById('ag-tab-scouting');
 
@@ -772,13 +771,13 @@
         tabFleet.addEventListener('click', function() {
           tabFleet.classList.add('active');
           tabScouting.classList.remove('active');
-          renderAg(fleetItems);
+          renderAg(cameraItems);
         });
 
         tabScouting.addEventListener('click', function() {
           tabScouting.classList.add('active');
           tabFleet.classList.remove('active');
-          renderAg(scoutingItems);
+          renderAg(droneLightItems);
         });
       }
 
