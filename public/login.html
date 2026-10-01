@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In & Register — GearRent Hub</title>
+  <meta name="description" content="Sign in or register for GearRent Hub. Rent premium cinema cameras, drones, and lighting or list your gear to earn income." />
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/animations.css" />
+  <link rel="stylesheet" href="/css/professional.css" />
+  <style>
+    .auth-page-wrap {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      position: relative;
+      background: radial-gradient(circle at 50% 20%, rgba(99, 102, 241, 0.12) 0%, transparent 60%),
+                  radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.08) 0%, transparent 50%),
+                  var(--clr-bg);
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 480px;
+      background: #0f172a;
+      border: 1px solid var(--clr-border-2);
+      border-radius: var(--radius-2xl);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 50px rgba(99, 102, 241, 0.15);
+      padding: var(--space-2xl);
+      position: relative;
+      z-index: 10;
+    }
+    .auth-header {
+      text-align: center;
+      margin-bottom: var(--space-xl);
+    }
+    .auth-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 12px;
+      text-decoration: none;
+    }
+    .auth-logo span span {
+      color: var(--clr-accent);
+    }
+    .back-home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--clr-text-2);
+      margin-bottom: 24px;
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--clr-border);
+      transition: all 0.2s;
+    }
+    .back-home-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--clr-primary-l);
+    }
+    .demo-login-box {
+      background: rgba(99, 102, 241, 0.08);
+      border: 1px dashed rgba(99, 102, 241, 0.35);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .demo-btn {
+      margin-top: 8px;
+      width: 100%;
+      background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.3));
+      border: 1px solid var(--clr-primary-l);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .demo-btn:hover {
+      background: var(--clr-primary);
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="auth-page-wrap">
+    <a href="/" class="back-home-btn">
+      ← Back to GearRent Hub
+    </a>
+
+    <div class="auth-card">
+      <div class="auth-header">
+        <a href="/" class="auth-logo">
+          <span>🎬</span>
+          <span>Gear<span>Rent</span> Hub</span>
+        </a>
+        <h1 style="font-size: 1.5rem; font-weight: 800; font-family: var(--font-display); margin-top: 4px;" id="page-title">
+          Sign In to Your Account
+        </h1>
+        <p style="font-size: 0.88rem; color: var(--clr-text-2); margin-top: 4px;">
+          Access your bookings, list camera gear &amp; manage rentals
+        </p>
+      </div>
+
+      <!-- Quick 1-Click Demo Login -->
+      <div class="demo-login-box" id="demo-box">
+        <div style="font-size: 0.8rem; color: var(--clr-primary-l); font-weight: 700;">⚡ Quick Demo Account</div>
+        <div style="font-size: 0.78rem; color: var(--clr-text-3); margin-top: 2px;">demo@gearrent.com • password123</div>
+        <button type="button" class="demo-btn" id="demo-fill-btn">Click to Auto-Fill &amp; Sign In</button>
+      </div>
+
+      <!-- Tabs -->
+      <div class="auth-tabs" style="display: flex; border-bottom: 1px solid var(--clr-border); margin-bottom: 24px;">
+        <button type="button" class="auth-tab-btn active" id="tab-login" style="flex:1; padding: 12px; background: none; border: none; border-bottom: 2px solid var(--clr-primary-l); color: #fff; font-weight: 700; cursor: pointer;">
+          Sign In
+        </button>
+        <button type="button" class="auth-tab-btn" id="tab-signup" style="flex:1; padding: 12px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--clr-text-3); font-weight: 600; cursor: pointer;">
+          Create Account
+        </button>
+      </div>
+
+      <!-- Sign In Form -->
+      <div id="pane-login">
+        <form id="page-login-form">
+          <div class="form-group" style="margin-bottom: var(--space-md);">
+            <label for="p-login-email" class="form-label">Email Address</label>
+            <input type="email" id="p-login-email" class="form-input" placeholder="you@domain.com" required autocomplete="email" />
+          </div>
+
+          <div class="form-group" style="margin-bottom: var(--space-lg);">
+            <label for="p-login-password" class="form-label">Password</label>
+            <input type="password" id="p-login-password" class="form-input" placeholder="••••••••" required autocomplete="current-password" />
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg btn-rounded" id="p-login-submit" style="width: 100%;">
+            🔑 Sign In
+          </button>
+
+          <div style="text-align: center; margin-top: var(--space-md); font-size: 0.88rem; color: var(--clr-text-3);">
+            Don't have an account? <a href="#" id="link-to-signup" style="color: var(--clr-accent); font-weight: 600;">Sign up free</a>
+          </div>
+        </form>
+      </div>
+
+      <!-- Sign Up Form -->
+      <div id="pane-signup" style="display: none;">
+        <form id="page-signup-form">
+          <div class="form-group" style="margin-bottom: var(--space-md);">
+            <label for="p-signup-name" class="form-label">Full Name / Studio Name *</label>
+            <input type="text" id="p-signup-name" class="form-input" placeholder="e.g. Maya Lin" required autocomplete="name" />
+          </div>
+
+          <div class="form-group" style="margin-bottom: var(--space-md);">
+            <label for="p-signup-email" class="form-label">Email Address *</label>
+            <input type="email" id="p-signup-email" class="form-input" placeholder="you@domain.com" required autocomplete="email" />
+          </div>
+
+          <div class="form-group" style="margin-bottom: var(--space-md);">
+            <label for="p-signup-password" class="form-label">Create Password * (min 6 characters)</label>
+            <input type="password" id="p-signup-password" class="form-input" placeholder="••••••••" minlength="6" required autocomplete="new-password" />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group" style="margin-bottom: var(--space-md);">
+              <label for="p-signup-role" class="form-label">I want to *</label>
+              <select id="p-signup-role" class="form-select">
+                <option value="creator_host">Rent &amp; List Gear (Host)</option>
+                <option value="renter">Rent Equipment (Renter)</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom: var(--space-md);">
+              <label for="p-signup-location" class="form-label">City / Location</label>
+              <input type="text" id="p-signup-location" class="form-input" placeholder="e.g. Brooklyn, NY" />
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: var(--space-lg);">
+            <label for="p-signup-phone" class="form-label">Phone Number (Optional)</label>
+            <input type="tel" id="p-signup-phone" class="form-input" placeholder="+1 (555) 000-0000" />
+          </div>
+
+          <button type="submit" class="btn btn-accent btn-lg btn-rounded" id="p-signup-submit" style="width: 100%;">
+            🚀 Create Free Account
+          </button>
+
+          <div style="text-align: center; margin-top: var(--space-md); font-size: 0.88rem; color: var(--clr-text-3);">
+            Already have an account? <a href="#" id="link-to-login" style="color: var(--clr-primary-l); font-weight: 600;">Sign in here</a>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast notifications -->
+  <div class="toast-container" id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    (function () {
+      const tabLogin = document.getElementById('tab-login');
+      const tabSignup = document.getElementById('tab-signup');
+      const paneLogin = document.getElementById('pane-login');
+      const paneSignup = document.getElementById('pane-signup');
+      const pageTitle = document.getElementById('page-title');
+      const demoBox = document.getElementById('demo-box');
+
+      function showLogin() {
+        tabLogin.style.borderBottomColor = 'var(--clr-primary-l)';
+        tabLogin.style.color = '#fff';
+        tabSignup.style.borderBottomColor = 'transparent';
+        tabSignup.style.color = 'var(--clr-text-3)';
+        paneLogin.style.display = 'block';
+        paneSignup.style.display = 'none';
+        demoBox.style.display = 'block';
+        pageTitle.textContent = 'Sign In to Your Account';
+        document.getElementById('p-login-email').focus();
+      }
+
+      function showSignup() {
+        tabSignup.style.borderBottomColor = 'var(--clr-accent)';
+        tabSignup.style.color = '#fff';
+        tabLogin.style.borderBottomColor = 'transparent';
+        tabLogin.style.color = 'var(--clr-text-3)';
+        paneLogin.style.display = 'none';
+        paneSignup.style.display = 'block';
+        demoBox.style.display = 'none';
+        pageTitle.textContent = 'Join the Creator Community';
+        document.getElementById('p-signup-name').focus();
+      }
+
+      tabLogin.addEventListener('click', showLogin);
+      tabSignup.addEventListener('click', showSignup);
+      document.getElementById('link-to-signup').addEventListener('click', (e) => { e.preventDefault(); showSignup(); });
+      document.getElementById('link-to-login').addEventListener('click', (e) => { e.preventDefault(); showLogin(); });
+
+      // Check URL query ?tab=signup
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('tab') === 'signup') {
+        showSignup();
+      } else {
+        showLogin();
+      }
+
+      // Demo auto-fill button
+      document.getElementById('demo-fill-btn').addEventListener('click', () => {
+        document.getElementById('p-login-email').value = 'demo@gearrent.com';
+        document.getElementById('p-login-password').value = 'password123';
+        document.getElementById('page-login-form').dispatchEvent(new Event('submit', { cancelable: true }));
+      });
+
+      // Login handler
+      document.getElementById('page-login-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById('p-login-submit');
+        const email = document.getElementById('p-login-email').value.trim();
+        const password = document.getElementById('p-login-password').value;
+
+        try {
+          setLoading(submitBtn, true);
+          const res = await auth.login(email, password);
+          if (res && res.success) {
+            showToast('success', 'Signed In!', 'Welcome back! Redirecting to your dashboard...');
+            setTimeout(() => {
+              window.location.href = '/dashboard.html';
+            }, 700);
+          } else {
+            showToast('error', 'Sign In Failed', (res && res.error) || 'Invalid credentials');
+          }
+        } catch (err) {
+          showToast('error', 'Sign In Error', err.error || err.message || 'Please check your email and password');
+        } finally {
+          setLoading(submitBtn, false);
+        }
+      });
+
+      // Signup handler
+      document.getElementById('page-signup-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById('p-signup-submit');
+        const name = document.getElementById('p-signup-name').value.trim();
+        const email = document.getElementById('p-signup-email').value.trim();
+        const password = document.getElementById('p-signup-password').value;
+        const role = document.getElementById('p-signup-role').value;
+        const location = document.getElementById('p-signup-location').value.trim();
+        const phone = document.getElementById('p-signup-phone').value.trim();
+
+        if (password.length < 6) {
+          showToast('warning', 'Password Too Short', 'Password must be at least 6 characters.');
+          return;
+        }
+
+        try {
+          setLoading(submitBtn, true);
+          const res = await auth.register({ name, email, password, role, location, phone });
+          if (res && res.success) {
+            showToast('success', 'Account Created!', 'Welcome to GearRent Hub! Redirecting to your dashboard...');
+            setTimeout(() => {
+              window.location.href = '/dashboard.html';
+            }, 700);
+          } else {
+            showToast('error', 'Registration Failed', (res && res.error) || 'Could not create account');
+          }
+        } catch (err) {
+          showToast('error', 'Registration Error', err.error || err.message || 'Please check form fields');
+        } finally {
+          setLoading(submitBtn, false);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

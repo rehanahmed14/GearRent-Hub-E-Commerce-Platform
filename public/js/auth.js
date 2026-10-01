@@ -90,18 +90,21 @@ const auth = {
 // ── Auth Modal Controls ───────────────────────────────────────
 function openAuthModal(mode = 'login') {
   const modal = document.getElementById('auth-modal');
-  if (!modal) return;
+  if (!modal) {
+    window.location.href = `/login.html?tab=${mode}`;
+    return;
+  }
   modal.classList.add('active', 'open');
   modal.setAttribute('aria-hidden', 'false');
-  document.body.style.overflow = 'hidden';
   switchAuthTab(mode);
 }
 
 function closeAuthModal() {
   const modal = document.getElementById('auth-modal');
-  if (!modal) return;
-  modal.classList.remove('active', 'open');
-  modal.setAttribute('aria-hidden', 'true');
+  if (modal) {
+    modal.classList.remove('active', 'open');
+    modal.setAttribute('aria-hidden', 'true');
+  }
   document.body.style.overflow = '';
 }
 
@@ -187,12 +190,12 @@ function updateNavbarAuth() {
   } else {
     // Logged out
     actionsWrap.innerHTML = `
-      <button type="button" class="btn btn-ghost btn-sm" onclick="openAuthModal('login')">
+      <a href="/login.html?tab=login" class="btn btn-ghost btn-sm" id="nav-signin-btn">
         Sign In
-      </button>
-      <button type="button" class="btn btn-primary btn-sm btn-rounded" onclick="openAuthModal('signup')">
+      </a>
+      <a href="/login.html?tab=signup" class="btn btn-primary btn-sm btn-rounded" id="nav-signup-btn">
         Sign Up
-      </button>
+      </a>
       <button type="button" class="btn btn-outline btn-sm btn-rounded" id="nav-list-btn" onclick="openListGearModal()">
         💰 List Gear
       </button>

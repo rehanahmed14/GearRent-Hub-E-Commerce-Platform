@@ -13,6 +13,20 @@
       "protectionLimit": 10000,
       "avatar": "https://api.dicebear.com/7.x/initials/svg?seed=Demo%20Creator&backgroundColor=6366f1",
       "createdAt": "2026-09-27T17:25:01.450Z"
+    },
+    {
+      "id": "usr-1750bdb9",
+      "name": "Sarah Connor",
+      "email": "sarah.1790864681112@example.com",
+      "password": "$2b$10$mHztsg8zHEoPjDXh05x1/ebZotL1jen1ryqTREfIL0l5N2/162Hky",
+      "role": "creator_host",
+      "phone": "",
+      "location": "Los Angeles, CA",
+      "bio": "Independent Creator & Filmmaker",
+      "verified": true,
+      "protectionLimit": 10000,
+      "avatar": "https://api.dicebear.com/7.x/initials/svg?seed=Sarah%20Connor&backgroundColor=6366f1",
+      "createdAt": "2026-10-01T14:24:41.242Z"
     }
   ]
 }
